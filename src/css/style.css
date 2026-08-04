@@ -1,0 +1,605 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;600;700;800;900&display=swap');
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+@import "tailwindcss";
+
+/* ==========================================================================
+   روش ۱: متغیرهای CSS (CSS Custom Properties) برای تم‌ها و کدهای یکپارچه
+   ========================================================================== */
+:root {
+  --font-main: 'Vazirmatn', sans-serif;
+  --bg-color: #070a12;
+  --bg-radial-1: rgba(59, 130, 246, 0.22);
+  --bg-radial-2: rgba(99, 102, 241, 0.18);
+  --bg-radial-3: rgba(15, 23, 42, 0.98);
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --text-sub: #cbd5e1;
+
+  --card-bg: rgba(15, 23, 42, 0.6);
+  --card-bg-hover: rgba(30, 41, 59, 0.7);
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-border-top: rgba(255, 255, 255, 0.18);
+  --card-border-hover: rgba(96, 165, 250, 0.45);
+  --card-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --card-shadow-hover: 0 25px 45px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(59, 130, 246, 0.15);
+
+  --search-bg: rgba(15, 23, 42, 0.7);
+  --search-border: rgba(255, 255, 255, 0.12);
+  --dropdown-bg: rgba(15, 23, 42, 0.96);
+  --dropdown-border: rgba(255, 255, 255, 0.15);
+
+  --orb-1: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(0,0,0,0) 70%);
+  --orb-2: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(0,0,0,0) 70%);
+
+  --shimmer-grad: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+  --temp-glow-color: #ffffff;
+  --temp-glow-shadow: 0 0 30px rgba(59, 130, 246, 0.7), 0 0 60px rgba(99, 102, 241, 0.4);
+}
+
+body.light-theme {
+  --bg-color: #f1f5f9;
+  --bg-radial-1: rgba(59, 130, 246, 0.08);
+  --bg-radial-2: rgba(99, 102, 241, 0.06);
+  --bg-radial-3: rgba(226, 232, 240, 0.95);
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-sub: #1e293b;
+
+  --card-bg: #ffffff;
+  --card-bg-hover: #f8fafc;
+  --card-border: #cbd5e1;
+  --card-border-top: #e2e8f0;
+  --card-border-hover: #3b82f6;
+  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+  --card-shadow-hover: 0 12px 28px -4px rgba(37, 99, 235, 0.12);
+
+  --search-bg: #ffffff;
+  --search-border: #94a3b8;
+  --dropdown-bg: #ffffff;
+  --dropdown-border: #cbd5e1;
+
+  --orb-1: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(255,255,255,0) 70%);
+  --orb-2: radial-gradient(circle, rgba(99, 102, 241, 0.10) 0%, rgba(255,255,255,0) 70%);
+
+  --shimmer-grad: linear-gradient(90deg, rgba(0,0,0,0.03) 25%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.03) 75%);
+  --temp-glow-color: #0f172a;
+  --temp-glow-shadow: 0 4px 20px rgba(37, 99, 235, 0.2);
+}
+
+/* ==========================================================================
+   روش ۲: ادغام انتخابگرها (Grouped Selectors) و استایل‌های عمومی
+   ========================================================================== */
+body {
+  font-family: var(--font-main);
+  background: var(--bg-color);
+  background-image: 
+    radial-gradient(at 0% 0%, var(--bg-radial-1) 0px, transparent 55%),
+    radial-gradient(at 100% 0%, var(--bg-radial-2) 0px, transparent 55%),
+    radial-gradient(at 50% 100%, var(--bg-radial-3) 0px, transparent 60%);
+  background-attachment: fixed;
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+@media (max-width: 640px) {
+  body { background-attachment: scroll; }
+}
+
+[x-cloak] { display: none !important; }
+
+/* ==========================================================================
+   روش ۳: حذف دستورات تکراری و بهینه‌سازی انیمیشن‌ها
+   ========================================================================== */
+@keyframes floatOrb {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(45px, 55px) scale(1.15); }
+}
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(4deg); }
+}
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(25px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes unitSwitchPop {
+  0% { transform: scale(0.92); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1.05); }
+}
+
+.animate-float { animation: floatIcon 5s ease-in-out infinite; }
+.reveal { animation: revealUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+.shimmer {
+  background: var(--shimmer-grad);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+.temp-glow { 
+  display: inline-block;
+  color: var(--temp-glow-color) !important;
+  -webkit-text-fill-color: var(--temp-glow-color) !important;
+  background: none !important;
+  text-shadow: var(--temp-glow-shadow); 
+}
+
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+.ambient-orb-1, .ambient-orb-2 {
+  position: fixed; z-index: 0; pointer-events: none;
+}
+.ambient-orb-1 {
+  top: -140px; right: -140px; width: 480px; height: 480px;
+  background: var(--orb-1); filter: blur(80px);
+  animation: floatOrb 14s ease-in-out infinite alternate;
+}
+.ambient-orb-2 {
+  bottom: -160px; left: -120px; width: 520px; height: 520px;
+  background: var(--orb-2); filter: blur(100px);
+  animation: floatOrb 18s ease-in-out infinite alternate-reverse;
+}
+
+/* ==========================================================================
+   روش ۴: ساختار خلاصه، حذف کدهای اضافه و ساده‌سازی کامپوننت‌ها
+   ========================================================================== */
+.bento-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid var(--card-border);
+  border-top: 1px solid var(--card-border-top);
+  border-radius: 2rem;
+  box-shadow: var(--card-shadow);
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bento-card:hover {
+  border-color: var(--card-border-hover);
+  background: var(--card-bg-hover);
+  box-shadow: var(--card-shadow-hover);
+  transform: translateY(-4px);
+}
+
+@media (max-width: 640px) {
+  .bento-card { border-radius: 1.5rem; backdrop-filter: blur(16px); }
+}
+@media (min-width: 641px) and (max-width: 1024px) {
+  .bento-card { border-radius: 1.75rem; backdrop-filter: blur(20px); }
+}
+
+.search-container {
+  background: var(--search-bg);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--search-border);
+  transition: all 0.3s ease;
+}
+.search-container:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.5);
+  transform: translateY(-2px);
+}
+
+.ultimate-dropdown {
+  position: absolute; top: calc(100% + 0.75rem); left: 0; right: 0;
+  background: var(--dropdown-bg);
+  backdrop-filter: blur(32px);
+  border: 1px solid var(--dropdown-border);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85);
+  overflow: hidden; z-index: 9999;
+}
+
+.suggestion-item {
+  cursor: pointer; transition: all 0.2s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.suggestion-item:hover {
+  background: rgba(59, 130, 246, 0.18);
+  padding-right: 1.75rem;
+}
+
+.hourly-container {
+  cursor: grab; user-select: none;
+  scroll-snap-type: x mandatory; scroll-behavior: smooth;
+}
+.hourly-container:active { cursor: grabbing; scroll-snap-type: none; }
+.hourly-card { scroll-snap-align: start; }
+
+.group\/forecast { transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important; }
+.group\/forecast [class*="bg-slate-800"] { transition: all 0.25s ease !important; }
+
+/* ==========================================================================
+   گروه‌بندی رنگ‌های تم روشن بهینه شده (Light Theme High Contrast Overrides)
+   ========================================================================== */
+body.light-theme .toast-notification {
+  background: #ffffff !important;
+  border: 1.5px solid #3b82f6 !important;
+  color: #0f172a !important;
+  box-shadow: 0 15px 35px -5px rgba(15, 23, 42, 0.15) !important;
+}
+
+body.light-theme .text-white, 
+body.light-theme .text-slate-100 { 
+  color: #0f172a !important; 
+}
+body.light-theme .text-slate-200 { color: #1e293b !important; }
+body.light-theme .text-slate-300 { color: #334155 !important; }
+body.light-theme .text-slate-400 { color: #475569 !important; font-weight: 600 !important; }
+body.light-theme .text-slate-500 { color: #64748b !important; }
+
+/* رنگ‌های رنگی در تم روشن برای کنتراست عالی و خوانایی فوق‌العاده */
+body.light-theme .text-blue-300,
+body.light-theme .text-blue-300\/90,
+body.light-theme .text-blue-400 { color: #1d4ed8 !important; font-weight: 700 !important; }
+
+body.light-theme .text-indigo-300,
+body.light-theme .text-indigo-300\/90,
+body.light-theme .text-indigo-400 { color: #4338ca !important; font-weight: 700 !important; }
+
+body.light-theme .text-cyan-300,
+body.light-theme .text-cyan-400 { color: #0369a1 !important; font-weight: 700 !important; }
+
+body.light-theme .text-amber-100,
+body.light-theme .text-amber-200,
+body.light-theme .text-amber-300,
+body.light-theme .text-amber-300\/80,
+body.light-theme .text-amber-300\/70,
+body.light-theme .text-amber-400 { color: #b45309 !important; font-weight: 700 !important; }
+
+body.light-theme .text-emerald-300,
+body.light-theme .text-emerald-400 { color: #047857 !important; font-weight: 700 !important; }
+
+body.light-theme .text-purple-300,
+body.light-theme .text-purple-400 { color: #6b21a8 !important; font-weight: 700 !important; }
+
+body.light-theme .text-red-300,
+body.light-theme .text-red-400 { color: #b91c1c !important; font-weight: 700 !important; }
+
+/* دکمه‌ها و نشان‌های پررنگ (Solid Backgrounds) حتماً متن سفید داشته باشند */
+body.light-theme .bg-blue-600,
+body.light-theme .bg-blue-500,
+body.light-theme .bg-indigo-600,
+body.light-theme .bg-indigo-500,
+body.light-theme .bg-purple-600,
+body.light-theme .bg-emerald-600,
+body.light-theme .bg-red-600,
+body.light-theme .bg-red-500,
+body.light-theme .bg-cyan-500,
+body.light-theme [class*="from-blue-600"],
+body.light-theme [class*="from-blue-500"],
+body.light-theme [class*="from-indigo-600"] {
+  color: #ffffff !important;
+}
+
+body.light-theme .bg-gradient-to-br .text-white,
+body.light-theme .bg-gradient-to-r .text-white,
+body.light-theme .bg-gradient-to-br i,
+body.light-theme .bg-blue-600 .text-white,
+body.light-theme .bg-indigo-600 .text-white,
+body.light-theme header .bg-gradient-to-br i,
+body.light-theme header .bg-gradient-to-br .text-white {
+  color: #ffffff !important;
+}
+
+body.light-theme .bg-blue-600 *,
+body.light-theme .bg-blue-500 *,
+body.light-theme .bg-indigo-600 *,
+body.light-theme .bg-indigo-500 *,
+body.light-theme .bg-purple-600 *,
+body.light-theme .bg-emerald-600 *,
+body.light-theme .bg-red-600 *,
+body.light-theme .bg-red-500 *,
+body.light-theme .bg-cyan-500 *,
+body.light-theme [class*="from-blue-600"] *,
+body.light-theme [class*="from-indigo-600"] * {
+  color: #ffffff !important;
+}
+
+/* کارت‌ها و المان‌های با پس‌زمینه تیره در تم روشن سفید یا خاکستری روشن شوند */
+body.light-theme .bg-slate-900\/90, 
+body.light-theme .bg-slate-900\/80, 
+body.light-theme .bg-slate-900\/60,
+body.light-theme .bg-slate-800\/80, 
+body.light-theme .bg-slate-800\/60, 
+body.light-theme .bg-slate-800\/50,
+body.light-theme .bg-slate-800\/40,
+body.light-theme .bg-slate-800\/30,
+body.light-theme .bg-slate-700\/50 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* اینپوت‌ها و جستجو */
+body.light-theme input {
+  background-color: #ffffff !important;
+  border-color: #94a3b8 !important;
+  color: #0f172a !important;
+}
+
+body.light-theme input::placeholder {
+  color: #64748b !important;
+}
+
+body.light-theme .search-container {
+  background-color: #ffffff !important;
+  border-color: #94a3b8 !important;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
+}
+
+body.light-theme .ultimate-dropdown {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12) !important;
+}
+
+body.light-theme .suggestion-item {
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+body.light-theme .suggestion-item:hover {
+  background-color: #eff6ff !important;
+}
+
+body.light-theme .suggestion-item .text-slate-200 {
+  color: #0f172a !important;
+}
+
+/* کارت‌های ساعت به ساعت */
+body.light-theme .hourly-card {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+body.light-theme .hourly-card:hover {
+  background-color: #f8fafc !important;
+  border-color: #93c5fd !important;
+}
+
+body.light-theme .hourly-card.border-blue-500\/80 {
+  background-color: #eff6ff !important;
+  border-color: #2563eb !important;
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.2) !important;
+}
+
+/* پیش‌بینی ۷ روزه */
+body.light-theme .group\/forecast [class*="bg-slate-800"] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+body.light-theme .group\/forecast [class*="bg-slate-800"]:hover {
+  background-color: #f8fafc !important;
+  border-color: #93c5fd !important;
+}
+
+/* مدال‌ها */
+body.light-theme .bento-card {
+  background-color: var(--card-bg) !important;
+  border-color: var(--card-border) !important;
+  box-shadow: var(--card-shadow) !important;
+}
+
+body.light-theme .bento-card:hover {
+  background-color: var(--card-bg-hover) !important;
+  border-color: var(--card-border-hover) !important;
+  box-shadow: var(--card-shadow-hover) !important;
+}
+
+/* نشان‌های رنگی در تم روشن */
+body.light-theme .bg-cyan-500\/10, body.light-theme .bg-cyan-500\/15, body.light-theme .bg-cyan-500\/20 { background-color: #e0f2fe !important; border-color: #7dd3fc !important; color: #0284c7 !important; }
+body.light-theme .bg-amber-500\/10, body.light-theme .bg-amber-500\/15, body.light-theme .bg-amber-500\/20 { background-color: #fef3c7 !important; border-color: #fcd34d !important; color: #b45309 !important; }
+body.light-theme .bg-indigo-500\/10, body.light-theme .bg-indigo-500\/15, body.light-theme .bg-indigo-500\/20 { background-color: #e0e7ff !important; border-color: #a5b4fc !important; color: #4338ca !important; }
+body.light-theme .bg-purple-500\/10, body.light-theme .bg-purple-500\/15, body.light-theme .bg-purple-500\/20 { background-color: #f3e8ff !important; border-color: #d8b4fe !important; color: #6b21a8 !important; }
+body.light-theme .bg-emerald-500\/10, body.light-theme .bg-emerald-500\/15, body.light-theme .bg-emerald-500\/20 { background-color: #d1fae5 !important; border-color: #6ee7b7 !important; color: #047857 !important; }
+body.light-theme .bg-blue-500\/10, body.light-theme .bg-blue-500\/15, body.light-theme .bg-blue-500\/20 { background-color: #dbeafe !important; border-color: #93c5fd !important; color: #1d4ed8 !important; }
+body.light-theme .bg-orange-500\/10, body.light-theme .bg-orange-500\/15, body.light-theme .bg-orange-500\/20 { background-color: #ffedd5 !important; border-color: #fdba74 !important; color: #c2410c !important; }
+body.light-theme .bg-red-500\/10, body.light-theme .bg-red-500\/15, body.light-theme .bg-red-500\/20 { background-color: #fee2e2 !important; border-color: #fca5a5 !important; color: #b91c1c !important; }
+
+/* آیکن‌ها در حالت لایت مود با کنتراست عالی */
+body.light-theme i {
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
+}
+
+body.light-theme i.fa-sun { color: #d97706 !important; filter: drop-shadow(0 2px 6px rgba(217, 119, 6, 0.3)) !important; }
+body.light-theme i.fa-cloud-sun, 
+body.light-theme i.fa-cloud { color: #0284c7 !important; filter: drop-shadow(0 2px 6px rgba(2, 132, 199, 0.25)) !important; }
+body.light-theme i.fa-cloud-showers-heavy, 
+body.light-theme i.fa-cloud-rain,
+body.light-theme i.fa-droplet { color: #2563eb !important; filter: drop-shadow(0 2px 6px rgba(37, 99, 235, 0.3)) !important; }
+body.light-theme i.fa-bolt-lightning { color: #ca8a04 !important; filter: drop-shadow(0 2px 8px rgba(202, 138, 4, 0.35)) !important; }
+body.light-theme i.fa-snowflake { color: #0284c7 !important; }
+body.light-theme i.fa-wind, 
+body.light-theme i.fa-compass { color: #4338ca !important; }
+body.light-theme i.fa-gauge-high, 
+body.light-theme i.fa-temperature-half { color: #6b21a8 !important; }
+body.light-theme i.fa-eye,
+body.light-theme i.fa-umbrella { color: #1d4ed8 !important; }
+body.light-theme i.fa-leaf, 
+body.light-theme i.fa-shield-halved { color: #047857 !important; }
+body.light-theme i.fa-location-dot { color: #dc2626 !important; }
+body.light-theme i.fa-clock { color: #1d4ed8 !important; }
+body.light-theme i.fa-fire { color: #ea580c !important; }
+body.light-theme i.fa-star { color: #d97706 !important; }
+body.light-theme i.fa-magnifying-glass { color: #334155 !important; }
+
+/* کلاس‌های رنگی آیکن‌ها در لایت مود برای پررنگ شدن و کنتراست بالا */
+body.light-theme i[class*="text-amber-"],
+body.light-theme i[class*="text-yellow-"] { color: #b45309 !important; }
+body.light-theme i[class*="text-blue-"] { color: #1d4ed8 !important; }
+body.light-theme i[class*="text-indigo-"] { color: #4338ca !important; }
+body.light-theme i[class*="text-cyan-"] { color: #0369a1 !important; }
+body.light-theme i[class*="text-emerald-"],
+body.light-theme i[class*="text-green-"] { color: #047857 !important; }
+body.light-theme i[class*="text-purple-"] { color: #6b21a8 !important; }
+body.light-theme i[class*="text-red-"] { color: #b91c1c !important; }
+body.light-theme i[class*="text-orange-"] { color: #c2410c !important; }
+body.light-theme i[class*="text-slate-400"],
+body.light-theme i[class*="text-slate-500"] { color: #334155 !important; }
+
+/* باکس راهنمای هوشمند */
+body.light-theme [class*="from-blue-900"],
+body.light-theme [class*="from-indigo-900"] {
+  background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%) !important;
+  border-color: #bfdbfe !important;
+  color: #1e3a8a !important;
+}
+
+body.light-theme [class*="from-blue-900"] *,
+body.light-theme [class*="from-indigo-900"] * {
+  color: #1e3a8a !important;
+}
+
+/* ==========================================================================
+   استایل‌های بهینه‌سازی شده مدال‌ها و پنجره‌های شناور (Modals & Overlays)
+   ========================================================================== */
+
+/* 1. دارک مود - Dark Mode Base Enhancements */
+.modal-backdrop {
+  background-color: rgba(3, 7, 18, 0.78) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+}
+
+.modal-card {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border: 1.5px solid rgba(59, 130, 246, 0.4) !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.85), 0 0 35px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* 2. لایت مود - Light Theme Modal & Floating Elements Overrides */
+body.light-theme .modal-backdrop {
+  background-color: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+body.light-theme .modal-card {
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 25px 60px -12px rgba(15, 23, 42, 0.22), 0 0 25px rgba(37, 99, 235, 0.12) !important;
+}
+
+body.light-theme .modal-card h3,
+body.light-theme .modal-card h4 {
+  color: #0f172a !important;
+}
+
+body.light-theme .modal-card .border-white\/10 {
+  border-color: #e2e8f0 !important;
+}
+
+/* کارت‌های داخلی مدال (مقایسه شهرها و جزئیات ساعت) در تم روشن */
+body.light-theme .modal-card .bg-slate-800\/60,
+body.light-theme .modal-card .bg-slate-800\/80,
+body.light-theme .modal-card .bg-slate-800\/90,
+body.light-theme .modal-card .bg-slate-900\/90 {
+  background-color: #f8fafc !important;
+  border: 1.5px solid #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+/* متن‌های داخل مدال در تم روشن */
+body.light-theme .modal-card .text-white {
+  color: #0f172a !important;
+  font-weight: 800 !important;
+}
+
+body.light-theme .modal-card .text-slate-300 {
+  color: #334155 !important;
+}
+
+body.light-theme .modal-card .text-slate-400 {
+  color: #475569 !important;
+  font-weight: 600 !important;
+}
+
+/* دکمه‌های خروج و لغو (Close button) */
+body.light-theme .modal-card button.text-slate-400 {
+  background-color: #f1f5f9 !important;
+  color: #334155 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+body.light-theme .modal-card button.text-slate-400:hover {
+  background-color: #e2e8f0 !important;
+  color: #0f172a !important;
+}
+
+/* دکمه‌های پیشنهادهای سریع داخل مدال */
+body.light-theme .modal-card button.bg-slate-800\/80 {
+  background-color: #ffffff !important;
+  color: #1e293b !important;
+  border: 1px solid #cbd5e1 !important;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.05) !important;
+}
+
+body.light-theme .modal-card button.bg-slate-800\/80:hover {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border-color: #2563eb !important;
+}
+
+/* باکس تحلیل مقایسه دو شهر در تم روشن */
+body.light-theme .modal-card [class*="from-blue-900"] {
+  background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 100%) !important;
+  border: 1.5px solid #bfdbfe !important;
+  color: #1e3a8a !important;
+}
+
+body.light-theme .modal-card [class*="from-blue-900"] * {
+  color: #1e3a8a !important;
+}
+
+/* دراپ‌داون‌های پیشرفته پیشنهادات شهر در هر دو تم */
+.ultimate-dropdown {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+body.light-theme .ultimate-dropdown {
+  background-color: #ffffff !important;
+  border: 1.5px solid #cbd5e1 !important;
+  box-shadow: 0 20px 45px -5px rgba(15, 23, 42, 0.18) !important;
+}
+
+body.light-theme .ultimate-dropdown .suggestion-item:hover {
+  background-color: #eff6ff !important;
+}
+
+body.light-theme .ultimate-dropdown .suggestion-item .text-slate-200 {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+body.light-theme .ultimate-dropdown .bg-slate-800 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #475569 !important;
+}
+
+/* ==========================================================================
+   حالت پرینت بهینه
+   ========================================================================== */
+@media print {
+  body { background: white !important; color: black !important; font-size: 12pt; }
+  .ambient-orb-1, .ambient-orb-2, header, .no-print, button, .search-container { display: none !important; }
+  .bento-card { background: white !important; color: black !important; border: 1px solid #e2e8f0 !important; box-shadow: none !important; backdrop-filter: none !important; border-radius: 1rem !important; page-break-inside: avoid; }
+  .temp-glow { color: black !important; text-shadow: none !important; -webkit-text-fill-color: black !important; }
+  span, p, h1, h2, h3, h4, strong { color: black !important; }
+  main { display: block !important; width: 100% !important; }
+}
+button, input, select, textarea { color: inherit; }

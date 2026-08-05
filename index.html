@@ -3,10 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Pro | Ultra Edition</title>
+    <title>هواشناسی پرو | پیش‌بینی دقیق آب و هوا، وضعیت کیفیت هوا و رادار بارش</title>
+    <meta name="description" content="پیشرفته‌ترین اپلیکیشن هواشناسی آنلاین با قابلیت پیش‌بینی ساعتی و هفتگی، بررسی کیفیت هوا، سرعت باد، رطوبت، مقایسه شهرهای مختلف و نقشه زنده آب و هوای ایران و جهان.">
+    <meta name="keywords" content="هواشناسی, آب و هوا, پیش بینی هوا, وضعیت هوا, دما, کیفیت هوا, رطوبت, هواشناسی پرو, weather forecast, iran weather, تهران, مشهد, اصفهان">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Weather Pro Ultra">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="هواشناسی پرو | پیش‌بینی دقیق آب و هوا و وضعیت جوی">
+    <meta property="og:description" content="پیش‌بینی آنلاین و لحظه‌ای وضعیت آب و هوا، دما، کیفیت هوا و نقشه‌های هواشناسی برای تمامی شهرهای ایران و جهان.">
+    <meta property="og:locale" content="fa_IR">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="هواشناسی پرو | پیش‌بینی دقیق آب و هوا">
+    <meta name="twitter:description" content="پیش‌بینی آنلاین و لحظه‌ای وضعیت آب و هوا، دما، کیفیت هوا و نقشه‌های هواشناسی برای تمامی شهرهای ایران و جهان.">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://alirezaevil81.github.io/Weather-pro">
+    <meta property="og:url" content="https://alirezaevil81.github.io/Weather-pro">
+    <meta property="og:site_name" content="هواشناسی پرو">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="geo.region" content="IR">
+    <meta name="geo.placename" content="Iran">
+
+    <!-- Favicon & Styles -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <link rel="stylesheet" href="/src/css/style.css">
     <script type="module" src="/src/js/app.js"></script>
+
+    <!-- Structured Data (JSON-LD) for SEO Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "هواشناسی پرو",
+      "alternateName": "Weather Pro Ultra",
+      "url": "https://alirezaevil81.github.io/Weather-pro",
+      "applicationCategory": "WeatherApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript. Requires HTML5.",
+      "description": "پیش‌بینی دقیق آب و هوا، وضعیت کیفیت هوا، رطوبت، سرعت باد و پیش‌بینی ساعتی و هفتگی برای تمامی شهرهای ایران و جهان.",
+      "inLanguage": "fa",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "IRR"
+      }
+    }
+    </script>
 </head>
 <body class="min-h-screen p-4 sm:p-6 md:p-8 lg:p-10 relative overflow-x-hidden" x-data="weatherApp()">
 

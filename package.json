@@ -6,16 +6,20 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
+    "gh-pages": "^6.3.0",
     "vite": "^8.1.1"
   },
-  "dependencies": {    
+  "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
     "@tailwindcss/vite": "^4.3.3",
     "alpinejs": "^3.15.12",
-    "tailwindcss": "^4.3.3",
-    "axios": "^1.19.0"
+    "axios": "^1.19.0",
+    "dayjs": "^1.11.21",
+    "tailwindcss": "^4.3.3"
   }
 }

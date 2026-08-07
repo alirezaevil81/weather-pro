@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;300;400;500;600;700;800;900&display=swap');
-@import '@fortawesome/fontawesome-free/css/all.min.css';
 @import "tailwindcss";
 
 /* ==========================================================================
@@ -8,62 +7,63 @@
 :root {
   --font-main: 'Vazirmatn', sans-serif;
   --bg-color: #070a12;
-  --bg-radial-1: rgba(59, 130, 246, 0.22);
-  --bg-radial-2: rgba(99, 102, 241, 0.18);
+  --bg-radial-1: rgba(59, 130, 246, 0.18);
+  --bg-radial-2: rgba(99, 102, 241, 0.15);
   --bg-radial-3: rgba(15, 23, 42, 0.98);
   --text-main: #ffffff;
-  --text-muted: #94a3b8;
-  --text-sub: #cbd5e1;
+  --text-muted: #cbd5e1;
+  --text-sub: #e2e8f0;
 
-  --card-bg: rgba(15, 23, 42, 0.6);
-  --card-bg-hover: rgba(30, 41, 59, 0.7);
-  --card-border: rgba(255, 255, 255, 0.08);
-  --card-border-top: rgba(255, 255, 255, 0.18);
-  --card-border-hover: rgba(96, 165, 250, 0.45);
-  --card-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  --card-shadow-hover: 0 25px 45px -10px rgba(0, 0, 0, 0.6), 0 0 25px rgba(59, 130, 246, 0.15);
+  --card-bg: rgba(15, 23, 42, 0.75);
+  --card-bg-hover: rgba(30, 41, 59, 0.85);
+  --card-border: rgba(255, 255, 255, 0.12);
+  --card-border-top: rgba(255, 255, 255, 0.22);
+  --card-border-hover: rgba(96, 165, 250, 0.5);
+  --card-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  --card-shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.75), 0 0 30px rgba(59, 130, 246, 0.2);
 
-  --search-bg: rgba(15, 23, 42, 0.7);
-  --search-border: rgba(255, 255, 255, 0.12);
-  --dropdown-bg: rgba(15, 23, 42, 0.96);
-  --dropdown-border: rgba(255, 255, 255, 0.15);
+  --search-bg: rgba(15, 23, 42, 0.85);
+  --search-border: rgba(255, 255, 255, 0.15);
+  --dropdown-bg: rgba(15, 23, 42, 0.98);
+  --dropdown-border: rgba(255, 255, 255, 0.18);
 
-  --orb-1: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(0,0,0,0) 70%);
-  --orb-2: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(0,0,0,0) 70%);
+  --orb-1: radial-gradient(circle, rgba(59, 130, 246, 0.22) 0%, rgba(0,0,0,0) 70%);
+  --orb-2: radial-gradient(circle, rgba(99, 102, 241, 0.18) 0%, rgba(0,0,0,0) 70%);
 
-  --shimmer-grad: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+  --shimmer-grad: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.09) 50%, rgba(255,255,255,0.03) 75%);
   --temp-glow-color: #ffffff;
-  --temp-glow-shadow: 0 0 30px rgba(59, 130, 246, 0.7), 0 0 60px rgba(99, 102, 241, 0.4);
+  --temp-glow-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 60px rgba(99, 102, 241, 0.35);
 }
 
 body.light-theme {
+  color-scheme: light;
   --bg-color: #f1f5f9;
-  --bg-radial-1: rgba(59, 130, 246, 0.08);
-  --bg-radial-2: rgba(99, 102, 241, 0.06);
-  --bg-radial-3: rgba(226, 232, 240, 0.95);
+  --bg-radial-1: rgba(37, 99, 235, 0.08);
+  --bg-radial-2: rgba(79, 70, 229, 0.06);
+  --bg-radial-3: rgba(255, 255, 255, 0.98);
   --text-main: #0f172a;
-  --text-muted: #475569;
+  --text-muted: #334155;
   --text-sub: #1e293b;
 
   --card-bg: #ffffff;
   --card-bg-hover: #f8fafc;
   --card-border: #cbd5e1;
-  --card-border-top: #e2e8f0;
-  --card-border-hover: #3b82f6;
-  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
-  --card-shadow-hover: 0 12px 28px -4px rgba(37, 99, 235, 0.12);
+  --card-border-top: #94a3b8;
+  --card-border-hover: #2563eb;
+  --card-shadow: 0 12px 35px -4px rgba(15, 23, 42, 0.08), 0 3px 10px -2px rgba(15, 23, 42, 0.04);
+  --card-shadow-hover: 0 20px 45px -8px rgba(37, 99, 235, 0.16), 0 6px 16px -3px rgba(15, 23, 42, 0.06);
 
   --search-bg: #ffffff;
   --search-border: #94a3b8;
   --dropdown-bg: #ffffff;
   --dropdown-border: #cbd5e1;
 
-  --orb-1: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(255,255,255,0) 70%);
-  --orb-2: radial-gradient(circle, rgba(99, 102, 241, 0.10) 0%, rgba(255,255,255,0) 70%);
+  --orb-1: radial-gradient(circle, rgba(37, 99, 235, 0.10) 0%, rgba(255,255,255,0) 70%);
+  --orb-2: radial-gradient(circle, rgba(79, 70, 229, 0.08) 0%, rgba(255,255,255,0) 70%);
 
   --shimmer-grad: linear-gradient(90deg, rgba(0,0,0,0.03) 25%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.03) 75%);
   --temp-glow-color: #0f172a;
-  --temp-glow-shadow: 0 4px 20px rgba(37, 99, 235, 0.2);
+  --temp-glow-shadow: 0 4px 20px rgba(37, 99, 235, 0.18);
 }
 
 /* ==========================================================================
@@ -81,6 +81,11 @@ body {
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
   transition: background 0.4s ease, color 0.4s ease;
+  padding-top: 1rem;
+}
+
+header {
+  padding-top: 0.75rem;
 }
 
 @media (max-width: 640px) {
@@ -209,75 +214,178 @@ body {
 
 .hourly-container {
   cursor: grab; user-select: none;
-  scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
-.hourly-container:active { cursor: grabbing; scroll-snap-type: none; }
-.hourly-card { scroll-snap-align: start; }
+.hourly-container:active { cursor: grabbing; }
+.hourly-card { }
 
 .group\/forecast { transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important; }
 .group\/forecast [class*="bg-slate-800"] { transition: all 0.25s ease !important; }
+
+/* ==========================================================================
+   بهینه‌سازی کنتراست تم تاریک (Dark Theme High Contrast)
+   ========================================================================== */
+body:not(.light-theme) .text-slate-500 { color: #94a3b8 !important; }
+body:not(.light-theme) .text-slate-400 { color: #cbd5e1 !important; }
+body:not(.light-theme) .text-slate-300 { color: #e2e8f0 !important; }
+body:not(.light-theme) .text-slate-200 { color: #f8fafc !important; }
 
 /* ==========================================================================
    گروه‌بندی رنگ‌های تم روشن بهینه شده (Light Theme High Contrast Overrides)
    ========================================================================== */
 body.light-theme .toast-notification {
   background: #ffffff !important;
-  border: 1.5px solid #3b82f6 !important;
+  border: 1.5px solid #2563eb !important;
   color: #0f172a !important;
-  box-shadow: 0 15px 35px -5px rgba(15, 23, 42, 0.15) !important;
+  box-shadow: 0 15px 35px -5px rgba(15, 23, 42, 0.18) !important;
 }
 
 body.light-theme .text-white, 
 body.light-theme .text-slate-100 { 
   color: #0f172a !important; 
 }
-body.light-theme .text-slate-200 { color: #1e293b !important; }
-body.light-theme .text-slate-300 { color: #334155 !important; }
-body.light-theme .text-slate-400 { color: #475569 !important; font-weight: 600 !important; }
-body.light-theme .text-slate-500 { color: #64748b !important; }
+body.light-theme .text-slate-200 { color: #0f172a !important; font-weight: 700 !important; }
+body.light-theme .text-slate-300 { color: #1e293b !important; font-weight: 700 !important; }
+body.light-theme .text-slate-400 { color: #334155 !important; font-weight: 700 !important; }
+body.light-theme .text-slate-500 { color: #475569 !important; font-weight: 600 !important; }
+
+/* خنثی‌سازی کامل کلاس‌های dark: در صورت فعال بودن تم روشن (Light Theme) */
+body.light-theme [class*="dark:text-emerald"],
+body.light-theme [class*="dark:text-amber"],
+body.light-theme [class*="dark:text-rose"],
+body.light-theme [class*="dark:text-red"],
+body.light-theme [class*="dark:text-blue"],
+body.light-theme [class*="dark:text-indigo"],
+body.light-theme [class*="dark:text-purple"],
+body.light-theme [class*="dark:text-cyan"],
+body.light-theme [class*="dark:text-orange"],
+body.light-theme [class*="dark:text-sky"],
+body.light-theme [class*="dark:text-slate"] {
+  color: inherit !important;
+}
+
+/* رنگ‌های بج‌ها و متن‌های تخصصی در تم روشن با کنتراست بالای ۷:۱ */
+body.light-theme .text-emerald-700,
+body.light-theme .text-emerald-800,
+body.light-theme .text-emerald-900,
+body.light-theme .text-emerald-950 { color: #065f46 !important; font-weight: 800 !important; }
+
+body.light-theme .text-amber-700,
+body.light-theme .text-amber-800,
+body.light-theme .text-amber-900,
+body.light-theme .text-amber-950 { color: #92400e !important; font-weight: 800 !important; }
+
+body.light-theme .text-rose-700,
+body.light-theme .text-rose-800,
+body.light-theme .text-rose-900,
+body.light-theme .text-rose-950,
+body.light-theme .text-red-700,
+body.light-theme .text-red-800 { color: #9f1239 !important; font-weight: 800 !important; }
+
+body.light-theme .text-orange-700,
+body.light-theme .text-orange-800,
+body.light-theme .text-orange-900 { color: #9a3412 !important; font-weight: 800 !important; }
+
+body.light-theme .text-blue-700,
+body.light-theme .text-blue-800,
+body.light-theme .text-blue-900 { color: #1e40af !important; font-weight: 800 !important; }
+
+body.light-theme .text-indigo-700,
+body.light-theme .text-indigo-800,
+body.light-theme .text-indigo-900 { color: #3730a3 !important; font-weight: 800 !important; }
+
+body.light-theme .text-cyan-700,
+body.light-theme .text-cyan-800,
+body.light-theme .text-cyan-900 { color: #155e75 !important; font-weight: 800 !important; }
+
+body.light-theme .text-purple-700,
+body.light-theme .text-purple-800,
+body.light-theme .text-purple-900 { color: #6b21a8 !important; font-weight: 800 !important; }
 
 /* رنگ‌های رنگی در تم روشن برای کنتراست عالی و خوانایی فوق‌العاده */
 body.light-theme .text-blue-300,
 body.light-theme .text-blue-300\/90,
-body.light-theme .text-blue-400 { color: #1d4ed8 !important; font-weight: 700 !important; }
+body.light-theme .text-blue-400 { color: #1d4ed8 !important; font-weight: 800 !important; }
 
 body.light-theme .text-indigo-300,
 body.light-theme .text-indigo-300\/90,
-body.light-theme .text-indigo-400 { color: #4338ca !important; font-weight: 700 !important; }
+body.light-theme .text-indigo-400 { color: #4338ca !important; font-weight: 800 !important; }
 
 body.light-theme .text-cyan-300,
-body.light-theme .text-cyan-400 { color: #0369a1 !important; font-weight: 700 !important; }
+body.light-theme .text-cyan-400 { color: #0369a1 !important; font-weight: 800 !important; }
 
 body.light-theme .text-amber-100,
 body.light-theme .text-amber-200,
 body.light-theme .text-amber-300,
 body.light-theme .text-amber-300\/80,
 body.light-theme .text-amber-300\/70,
-body.light-theme .text-amber-400 { color: #b45309 !important; font-weight: 700 !important; }
+body.light-theme .text-amber-400 { color: #b45309 !important; font-weight: 800 !important; }
 
 body.light-theme .text-emerald-300,
-body.light-theme .text-emerald-400 { color: #047857 !important; font-weight: 700 !important; }
+body.light-theme .text-emerald-400 { color: #047857 !important; font-weight: 800 !important; }
 
 body.light-theme .text-purple-300,
-body.light-theme .text-purple-400 { color: #6b21a8 !important; font-weight: 700 !important; }
+body.light-theme .text-purple-400 { color: #6b21a8 !important; font-weight: 800 !important; }
 
 body.light-theme .text-red-300,
-body.light-theme .text-red-400 { color: #b91c1c !important; font-weight: 700 !important; }
+body.light-theme .text-red-400 { color: #b91c1c !important; font-weight: 800 !important; }
 
 /* دکمه‌ها و نشان‌های پررنگ (Solid Backgrounds) حتماً متن سفید داشته باشند */
 body.light-theme .bg-blue-600,
 body.light-theme .bg-blue-500,
 body.light-theme .bg-indigo-600,
 body.light-theme .bg-indigo-500,
+body.light-theme .bg-amber-600,
+body.light-theme .bg-amber-500,
 body.light-theme .bg-purple-600,
 body.light-theme .bg-emerald-600,
 body.light-theme .bg-red-600,
 body.light-theme .bg-red-500,
 body.light-theme .bg-cyan-500,
+body.light-theme button.bg-blue-600,
+body.light-theme button.bg-blue-500,
+body.light-theme button.bg-indigo-600,
+body.light-theme button.bg-amber-600,
+body.light-theme .modal-card button[class*="bg-"],
 body.light-theme [class*="from-blue-600"],
 body.light-theme [class*="from-blue-500"],
 body.light-theme [class*="from-indigo-600"] {
   color: #ffffff !important;
+}
+
+body.light-theme .bg-blue-600 *,
+body.light-theme .bg-blue-500 *,
+body.light-theme button.bg-blue-600 *,
+body.light-theme button.bg-indigo-600 *,
+body.light-theme button.bg-amber-600 *,
+.modal-card button[class*="bg-"] *,
+.modal-card button[class*="bg-"] {
+  color: #ffffff !important;
+}
+
+/* باکس اختصاصی توصیه‌های پزشکی با کنتراست عالی در هر دو تم */
+.health-advice-box {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+.health-advice-title {
+  color: #34d399;
+}
+.health-advice-text {
+  color: #f0fdf4;
+}
+
+body.light-theme .health-advice-box {
+  background: #ecfdf5 !important;
+  border: 1.5px solid #34d399 !important;
+}
+body.light-theme .health-advice-title {
+  color: #047857 !important;
+  font-weight: 800 !important;
+}
+body.light-theme .health-advice-text {
+  color: #064e3b !important;
+  font-weight: 700 !important;
 }
 
 body.light-theme .bg-gradient-to-br .text-white,
@@ -313,7 +421,8 @@ body.light-theme .bg-slate-800\/60,
 body.light-theme .bg-slate-800\/50,
 body.light-theme .bg-slate-800\/40,
 body.light-theme .bg-slate-800\/30,
-body.light-theme .bg-slate-700\/50 {
+body.light-theme .bg-slate-700\/50,
+body.light-theme .bento-card [class*="bg-slate-800"] {
   background-color: #f1f5f9 !important;
   border-color: #cbd5e1 !important;
   color: #0f172a !important;
@@ -339,11 +448,11 @@ body.light-theme .search-container {
 body.light-theme .ultimate-dropdown {
   background-color: #ffffff !important;
   border-color: #cbd5e1 !important;
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12) !important;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.15) !important;
 }
 
 body.light-theme .suggestion-item {
-  border-bottom: 1px solid #f1f5f9 !important;
+  border-bottom: 1px solid #e2e8f0 !important;
 }
 
 body.light-theme .suggestion-item:hover {
@@ -357,31 +466,31 @@ body.light-theme .suggestion-item .text-slate-200 {
 /* کارت‌های ساعت به ساعت */
 body.light-theme .hourly-card {
   background-color: #ffffff !important;
-  border-color: #e2e8f0 !important;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06) !important;
 }
 
 body.light-theme .hourly-card:hover {
   background-color: #f8fafc !important;
-  border-color: #93c5fd !important;
+  border-color: #2563eb !important;
 }
 
 body.light-theme .hourly-card.border-blue-500\/80 {
   background-color: #eff6ff !important;
   border-color: #2563eb !important;
-  box-shadow: 0 0 15px rgba(37, 99, 235, 0.2) !important;
+  box-shadow: 0 0 18px rgba(37, 99, 235, 0.22) !important;
 }
 
 /* پیش‌بینی ۷ روزه */
 body.light-theme .group\/forecast [class*="bg-slate-800"] {
   background-color: #ffffff !important;
-  border-color: #e2e8f0 !important;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06) !important;
 }
 
 body.light-theme .group\/forecast [class*="bg-slate-800"]:hover {
   background-color: #f8fafc !important;
-  border-color: #93c5fd !important;
+  border-color: #2563eb !important;
 }
 
 /* مدال‌ها */
@@ -397,56 +506,71 @@ body.light-theme .bento-card:hover {
   box-shadow: var(--card-shadow-hover) !important;
 }
 
-/* نشان‌های رنگی در تم روشن */
-body.light-theme .bg-cyan-500\/10, body.light-theme .bg-cyan-500\/15, body.light-theme .bg-cyan-500\/20 { background-color: #e0f2fe !important; border-color: #7dd3fc !important; color: #0284c7 !important; }
-body.light-theme .bg-amber-500\/10, body.light-theme .bg-amber-500\/15, body.light-theme .bg-amber-500\/20 { background-color: #fef3c7 !important; border-color: #fcd34d !important; color: #b45309 !important; }
-body.light-theme .bg-indigo-500\/10, body.light-theme .bg-indigo-500\/15, body.light-theme .bg-indigo-500\/20 { background-color: #e0e7ff !important; border-color: #a5b4fc !important; color: #4338ca !important; }
-body.light-theme .bg-purple-500\/10, body.light-theme .bg-purple-500\/15, body.light-theme .bg-purple-500\/20 { background-color: #f3e8ff !important; border-color: #d8b4fe !important; color: #6b21a8 !important; }
-body.light-theme .bg-emerald-500\/10, body.light-theme .bg-emerald-500\/15, body.light-theme .bg-emerald-500\/20 { background-color: #d1fae5 !important; border-color: #6ee7b7 !important; color: #047857 !important; }
-body.light-theme .bg-blue-500\/10, body.light-theme .bg-blue-500\/15, body.light-theme .bg-blue-500\/20 { background-color: #dbeafe !important; border-color: #93c5fd !important; color: #1d4ed8 !important; }
-body.light-theme .bg-orange-500\/10, body.light-theme .bg-orange-500\/15, body.light-theme .bg-orange-500\/20 { background-color: #ffedd5 !important; border-color: #fdba74 !important; color: #c2410c !important; }
-body.light-theme .bg-red-500\/10, body.light-theme .bg-red-500\/15, body.light-theme .bg-red-500\/20 { background-color: #fee2e2 !important; border-color: #fca5a5 !important; color: #b91c1c !important; }
+.svg-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  fill: currentColor;
+  overflow: visible !important;
+  vertical-align: middle;
+}
+
+/* نشان‌های رنگی در تم روشن با کنتراست فوق‌العاده */
+body.light-theme .bg-cyan-500\/10, body.light-theme .bg-cyan-500\/15, body.light-theme .bg-cyan-500\/20 { background-color: #e0f2fe !important; border-color: #38bdf8 !important; color: #0369a1 !important; font-weight: 800 !important; }
+body.light-theme .bg-amber-500\/10, body.light-theme .bg-amber-500\/15, body.light-theme .bg-amber-500\/20, body.light-theme .bg-yellow-500\/10, body.light-theme .bg-yellow-500\/15 { background-color: #fef3c7 !important; border-color: #f59e0b !important; color: #92400e !important; font-weight: 800 !important; }
+body.light-theme .bg-indigo-500\/10, body.light-theme .bg-indigo-500\/15, body.light-theme .bg-indigo-500\/20 { background-color: #e0e7ff !important; border-color: #818cf8 !important; color: #3730a3 !important; font-weight: 800 !important; }
+body.light-theme .bg-purple-500\/10, body.light-theme .bg-purple-500\/15, body.light-theme .bg-purple-500\/20 { background-color: #f3e8ff !important; border-color: #c084fc !important; color: #6b21a8 !important; font-weight: 800 !important; }
+body.light-theme .bg-emerald-500\/10, body.light-theme .bg-emerald-500\/15, body.light-theme .bg-emerald-500\/20 { background-color: #d1fae5 !important; border-color: #34d399 !important; color: #065f46 !important; font-weight: 800 !important; }
+body.light-theme .bg-blue-500\/10, body.light-theme .bg-blue-500\/15, body.light-theme .bg-blue-500\/20 { background-color: #dbeafe !important; border-color: #60a5fa !important; color: #1e40af !important; font-weight: 800 !important; }
+body.light-theme .bg-orange-500\/10, body.light-theme .bg-orange-500\/15, body.light-theme .bg-orange-500\/20 { background-color: #ffedd5 !important; border-color: #fb923c !important; color: #9a3412 !important; font-weight: 800 !important; }
+body.light-theme .bg-red-500\/10, body.light-theme .bg-red-500\/15, body.light-theme .bg-red-500\/20, body.light-theme .bg-rose-500\/10, body.light-theme .bg-rose-500\/15, body.light-theme .bg-rose-500\/20 { background-color: #ffe4e6 !important; border-color: #fb7185 !important; color: #9f1239 !important; font-weight: 800 !important; }
+body.light-theme .bg-teal-500\/10, body.light-theme .bg-teal-500\/15, body.light-theme .bg-teal-500\/20 { background-color: #ccfbf1 !important; border-color: #2dd4bf !important; color: #115e59 !important; font-weight: 800 !important; }
+
+/* هشدارها (Alert Banners) در تم روشن */
+body.light-theme [class*="bg-red-500/10"], body.light-theme [class*="bg-rose-500/10"] { background-color: #fee2e2 !important; border-color: #fca5a5 !important; color: #991b1b !important; }
+body.light-theme [class*="bg-amber-500/10"], body.light-theme [class*="bg-yellow-500/10"] { background-color: #fef3c7 !important; border-color: #fcd34d !important; color: #92400e !important; }
+body.light-theme [class*="bg-blue-500/10"], body.light-theme [class*="bg-indigo-500/10"] { background-color: #dbeafe !important; border-color: #93c5fd !important; color: #1e40af !important; }
+body.light-theme [class*="bg-orange-500/10"] { background-color: #ffedd5 !important; border-color: #fdba74 !important; color: #9a3412 !important; }
 
 /* آیکن‌ها در حالت لایت مود با کنتراست عالی */
-body.light-theme i {
+body.light-theme i, body.light-theme .svg-icon {
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.05));
 }
 
-body.light-theme i.fa-sun { color: #d97706 !important; filter: drop-shadow(0 2px 6px rgba(217, 119, 6, 0.3)) !important; }
-body.light-theme i.fa-cloud-sun, 
-body.light-theme i.fa-cloud { color: #0284c7 !important; filter: drop-shadow(0 2px 6px rgba(2, 132, 199, 0.25)) !important; }
-body.light-theme i.fa-cloud-showers-heavy, 
-body.light-theme i.fa-cloud-rain,
-body.light-theme i.fa-droplet { color: #2563eb !important; filter: drop-shadow(0 2px 6px rgba(37, 99, 235, 0.3)) !important; }
-body.light-theme i.fa-bolt-lightning { color: #ca8a04 !important; filter: drop-shadow(0 2px 8px rgba(202, 138, 4, 0.35)) !important; }
-body.light-theme i.fa-snowflake { color: #0284c7 !important; }
-body.light-theme i.fa-wind, 
-body.light-theme i.fa-compass { color: #4338ca !important; }
-body.light-theme i.fa-gauge-high, 
-body.light-theme i.fa-temperature-half { color: #6b21a8 !important; }
-body.light-theme i.fa-eye,
-body.light-theme i.fa-umbrella { color: #1d4ed8 !important; }
-body.light-theme i.fa-leaf, 
-body.light-theme i.fa-shield-halved { color: #047857 !important; }
-body.light-theme i.fa-location-dot { color: #dc2626 !important; }
-body.light-theme i.fa-clock { color: #1d4ed8 !important; }
-body.light-theme i.fa-fire { color: #ea580c !important; }
-body.light-theme i.fa-star { color: #d97706 !important; }
-body.light-theme i.fa-magnifying-glass { color: #334155 !important; }
+body.light-theme i.fa-sun, body.light-theme .svg-icon.fa-sun { color: #d97706 !important; filter: drop-shadow(0 2px 6px rgba(217, 119, 6, 0.3)) !important; }
+body.light-theme i.fa-cloud-sun, body.light-theme .svg-icon.fa-cloud-sun, 
+body.light-theme i.fa-cloud, body.light-theme .svg-icon.fa-cloud { color: #0284c7 !important; filter: drop-shadow(0 2px 6px rgba(2, 132, 199, 0.25)) !important; }
+body.light-theme i.fa-cloud-showers-heavy, body.light-theme .svg-icon.fa-cloud-showers-heavy, 
+body.light-theme i.fa-cloud-rain, body.light-theme .svg-icon.fa-cloud-rain,
+body.light-theme i.fa-droplet, body.light-theme .svg-icon.fa-droplet { color: #2563eb !important; filter: drop-shadow(0 2px 6px rgba(37, 99, 235, 0.3)) !important; }
+body.light-theme i.fa-bolt-lightning, body.light-theme .svg-icon.fa-bolt-lightning { color: #ca8a04 !important; filter: drop-shadow(0 2px 8px rgba(202, 138, 4, 0.35)) !important; }
+body.light-theme i.fa-snowflake, body.light-theme .svg-icon.fa-snowflake { color: #0284c7 !important; }
+body.light-theme i.fa-wind, body.light-theme .svg-icon.fa-wind, 
+body.light-theme i.fa-compass, body.light-theme .svg-icon.fa-compass { color: #4338ca !important; }
+body.light-theme i.fa-gauge-high, body.light-theme .svg-icon.fa-gauge-high, 
+body.light-theme i.fa-temperature-half, body.light-theme .svg-icon.fa-temperature-half { color: #6b21a8 !important; }
+body.light-theme i.fa-eye, body.light-theme .svg-icon.fa-eye,
+body.light-theme i.fa-umbrella, body.light-theme .svg-icon.fa-umbrella { color: #1d4ed8 !important; }
+body.light-theme i.fa-leaf, body.light-theme .svg-icon.fa-leaf, 
+body.light-theme i.fa-shield-halved, body.light-theme .svg-icon.fa-shield-halved { color: #047857 !important; }
+body.light-theme i.fa-location-dot, body.light-theme .svg-icon.fa-location-dot { color: #dc2626 !important; }
+body.light-theme i.fa-clock, body.light-theme .svg-icon.fa-clock { color: #1d4ed8 !important; }
+body.light-theme i.fa-fire, body.light-theme .svg-icon.fa-fire { color: #ea580c !important; }
+body.light-theme i.fa-star, body.light-theme .svg-icon.fa-star { color: #d97706 !important; }
+body.light-theme i.fa-magnifying-glass, body.light-theme .svg-icon.fa-magnifying-glass { color: #334155 !important; }
 
 /* کلاس‌های رنگی آیکن‌ها در لایت مود برای پررنگ شدن و کنتراست بالا */
-body.light-theme i[class*="text-amber-"],
-body.light-theme i[class*="text-yellow-"] { color: #b45309 !important; }
-body.light-theme i[class*="text-blue-"] { color: #1d4ed8 !important; }
-body.light-theme i[class*="text-indigo-"] { color: #4338ca !important; }
-body.light-theme i[class*="text-cyan-"] { color: #0369a1 !important; }
-body.light-theme i[class*="text-emerald-"],
-body.light-theme i[class*="text-green-"] { color: #047857 !important; }
-body.light-theme i[class*="text-purple-"] { color: #6b21a8 !important; }
-body.light-theme i[class*="text-red-"] { color: #b91c1c !important; }
-body.light-theme i[class*="text-orange-"] { color: #c2410c !important; }
-body.light-theme i[class*="text-slate-400"],
-body.light-theme i[class*="text-slate-500"] { color: #334155 !important; }
+body.light-theme i[class*="text-amber-"], body.light-theme .svg-icon[class*="text-amber-"],
+body.light-theme i[class*="text-yellow-"], body.light-theme .svg-icon[class*="text-yellow-"] { color: #b45309 !important; }
+body.light-theme i[class*="text-blue-"], body.light-theme .svg-icon[class*="text-blue-"] { color: #1d4ed8 !important; }
+body.light-theme i[class*="text-indigo-"], body.light-theme .svg-icon[class*="text-indigo-"] { color: #4338ca !important; }
+body.light-theme i[class*="text-cyan-"], body.light-theme .svg-icon[class*="text-cyan-"] { color: #0369a1 !important; }
+body.light-theme i[class*="text-emerald-"], body.light-theme .svg-icon[class*="text-emerald-"],
+body.light-theme i[class*="text-green-"], body.light-theme .svg-icon[class*="text-green-"] { color: #047857 !important; }
+body.light-theme i[class*="text-purple-"], body.light-theme .svg-icon[class*="text-purple-"] { color: #6b21a8 !important; }
+body.light-theme i[class*="text-red-"], body.light-theme .svg-icon[class*="text-red-"] { color: #b91c1c !important; }
+body.light-theme i[class*="text-orange-"], body.light-theme .svg-icon[class*="text-orange-"] { color: #c2410c !important; }
+body.light-theme i[class*="text-slate-400"], body.light-theme .svg-icon[class*="text-slate-400"],
+body.light-theme i[class*="text-slate-500"], body.light-theme .svg-icon[class*="text-slate-500"] { color: #334155 !important; }
 
 /* باکس راهنمای هوشمند */
 body.light-theme [class*="from-blue-900"],
@@ -498,7 +622,7 @@ body.light-theme .modal-card h4 {
 }
 
 body.light-theme .modal-card .border-white\/10 {
-  border-color: #e2e8f0 !important;
+  border-color: #cbd5e1 !important;
 }
 
 /* کارت‌های داخلی مدال (مقایسه شهرها و جزئیات ساعت) در تم روشن */
@@ -507,7 +631,7 @@ body.light-theme .modal-card .bg-slate-800\/80,
 body.light-theme .modal-card .bg-slate-800\/90,
 body.light-theme .modal-card .bg-slate-900\/90 {
   background-color: #f8fafc !important;
-  border: 1.5px solid #e2e8f0 !important;
+  border: 1.5px solid #cbd5e1 !important;
   color: #0f172a !important;
   box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
 }
@@ -519,12 +643,12 @@ body.light-theme .modal-card .text-white {
 }
 
 body.light-theme .modal-card .text-slate-300 {
-  color: #334155 !important;
+  color: #1e293b !important;
 }
 
 body.light-theme .modal-card .text-slate-400 {
-  color: #475569 !important;
-  font-weight: 600 !important;
+  color: #334155 !important;
+  font-weight: 700 !important;
 }
 
 /* دکمه‌های خروج و لغو (Close button) */
@@ -588,6 +712,136 @@ body.light-theme .ultimate-dropdown .suggestion-item .text-slate-200 {
 body.light-theme .ultimate-dropdown .bg-slate-800 {
   background-color: #f1f5f9 !important;
   border-color: #cbd5e1 !important;
+  color: #334155 !important;
+}
+
+/* ==========================================================================
+   بهینه‌سازی ریسپانسپو همه‌جانبه (Mobile, Tablet, Desktop & Ultra-wide)
+   ========================================================================== */
+
+.no-scrollbar::-webkit-scrollbar,
+.hide-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+.no-scrollbar,
+.hide-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .bento-card:hover {
+    transform: none !important;
+  }
+  .bento-card:active {
+    transform: scale(0.99) !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .temp-glow {
+    font-size: 3.5rem !important;
+  }
+  .bento-card {
+    border-radius: 1.25rem;
+  }
+}
+
+@media (min-width: 381px) and (max-width: 639px) {
+  .bento-card {
+    border-radius: 1.5rem;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .bento-card {
+    border-radius: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bento-card {
+    border-radius: 2rem;
+  }
+}
+
+.hourly-container {
+  touch-action: pan-x;
+  overscroll-behavior-x: contain;
+}
+.hourly-card {
+  flex-shrink: 0;
+}
+
+@media (max-width: 639px) {
+  .modal-card {
+    max-height: 88vh !important;
+    border-radius: 1.5rem !important;
+    padding: 1.25rem !important;
+  }
+}
+
+body {
+  padding-bottom: env(safe-area-inset-bottom, 1rem);
+  padding-top: env(safe-area-inset-top, 0);
+}
+
+/* ==========================================================================
+   تکمیل و تضمین رنگ و کنتراست آیکن‌ها و المان‌ها در حالت لایت مود (Light Mode Final Polish)
+   ========================================================================== */
+body.light-theme .bento-card {
+  color: #0f172a !important;
+}
+body.light-theme .bento-card p {
+  color: #334155 !important;
+}
+body.light-theme .bento-card h3,
+body.light-theme .bento-card h4 {
+  color: #0f172a !important;
+  font-weight: 800 !important;
+}
+body.light-theme svg.svg-icon {
+  color: #2563eb !important;
+}
+body.light-theme svg.svg-icon.text-slate-400,
+body.light-theme svg.svg-icon.text-slate-500 {
+  color: #334155 !important;
+}
+body.light-theme svg.svg-icon.text-amber-400,
+body.light-theme svg.svg-icon.text-amber-300 {
+  color: #b45309 !important;
+}
+body.light-theme svg.svg-icon.text-blue-400,
+body.light-theme svg.svg-icon.text-blue-300 {
+  color: #1d4ed8 !important;
+}
+body.light-theme svg.svg-icon.text-indigo-400 {
+  color: #4338ca !important;
+}
+body.light-theme svg.svg-icon.text-emerald-400 {
+  color: #047857 !important;
+}
+body.light-theme svg.svg-icon.text-rose-400 {
+  color: #b91c1c !important;
+}
+body.light-theme svg.svg-icon.text-cyan-400 {
+  color: #0369a1 !important;
+}
+body.light-theme .border-white\/10,
+body.light-theme .border-white\/20,
+body.light-theme .border-slate-800 {
+  border-color: #cbd5e1 !important;
+}
+body.light-theme [class*="text-slate-400"] {
+  color: #334155 !important;
+}
+body.light-theme [class*="text-slate-300"] {
+  color: #1e293b !important;
+}
+body.light-theme [class*="text-slate-500"] {
   color: #475569 !important;
 }
 
@@ -597,9 +851,58 @@ body.light-theme .ultimate-dropdown .bg-slate-800 {
 @media print {
   body { background: white !important; color: black !important; font-size: 12pt; }
   .ambient-orb-1, .ambient-orb-2, header, .no-print, button, .search-container { display: none !important; }
-  .bento-card { background: white !important; color: black !important; border: 1px solid #e2e8f0 !important; box-shadow: none !important; backdrop-filter: none !important; border-radius: 1rem !important; page-break-inside: avoid; }
+  .bento-card { background: white !important; color: black !important; border: 1px solid #cbd5e1 !important; box-shadow: none !important; backdrop-filter: none !important; border-radius: 1rem !important; page-break-inside: avoid; }
   .temp-glow { color: black !important; text-shadow: none !important; -webkit-text-fill-color: black !important; }
   span, p, h1, h2, h3, h4, strong { color: black !important; }
   main { display: block !important; width: 100% !important; }
 }
 button, input, select, textarea { color: inherit; }
+
+/* دکمه اختصاصی بستن مودال‌ها */
+.modal-close-btn {
+  position: absolute !important;
+  top: 1rem !important;
+  left: 1rem !important;
+  width: 2.25rem !important;
+  height: 2.25rem !important;
+  border-radius: 0.75rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  z-index: 50 !important;
+  cursor: pointer !important;
+}
+
+/* استایل در حالت تاریک (تم پیش‌فرض) */
+body:not(.light-theme) .modal-close-btn {
+  background-color: rgba(30, 41, 59, 0.85) !important;
+  color: #94a3b8 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+body:not(.light-theme) .modal-close-btn:hover {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border-color: #2563eb !important;
+}
+
+/* استایل در حالت روشن (تم لایت) */
+body.light-theme .modal-close-btn {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+body.light-theme .modal-close-btn:hover {
+  background-color: #2563eb !important;
+  color: #ffffff !important;
+  border-color: #2563eb !important;
+}
+
+/* برای اطمینان از اینکه آیکون‌های svg داخل دکمه بستن رنگ درست را دریافت می‌کنند */
+.modal-close-btn svg, .modal-close-btn svg.svg-icon {
+  color: inherit !important;
+  fill: currentColor !important;
+}
+

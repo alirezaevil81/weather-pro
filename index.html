@@ -54,7 +54,9 @@
     }
     </script>
 </head>
-<body class="min-h-screen p-4 sm:p-6 md:p-8 lg:p-10 relative overflow-x-hidden" x-data="weatherApp()">
+<body class="min-h-screen pt-6 sm:pt-8 md:pt-10 lg:pt-12 pb-6 sm:pb-8 px-3.5 sm:px-6 md:px-8 lg:px-10 relative overflow-x-hidden" x-data="weatherApp()">
+
+<div id="fa-symbols-container"></div>
 
 <div class="ambient-orb-1 opacity-60 sm:opacity-100"></div>
 <div class="ambient-orb-2 opacity-60 sm:opacity-100"></div>
@@ -69,7 +71,7 @@
      x-transition:leave-start="opacity-100 translate-y-0 scale-100"
      x-transition:leave-end="opacity-0 translate-y-8 scale-95"
      class="toast-notification fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-[150] bg-slate-900/95 border border-blue-500/50  px-4 sm:px-6 py-3 sm:py-3.5 rounded-2xl shadow-2xl backdrop-blur-2xl flex items-center gap-3 text-xs sm:text-sm font-bold no-print max-w-[90vw]">
-    <i class="fa-solid fa-circle-check text-emerald-400 text-base sm:text-lg"></i>
+    <svg class="svg-icon text-emerald-400 w-4 h-4 sm:w-5 sm:h-5"><use href="#icon-circle-check"></use></svg>
     <span x-text="toast.message"></span>
 </div>
 
@@ -78,11 +80,11 @@
     <div @click.away="showCompareModal = false" class="bento-card modal-card p-4 sm:p-6 md:p-8 max-w-2xl w-full max-h-[92vh] overflow-y-auto relative border border-blue-500/40 shadow-2xl reveal">
         <div class="flex items-center justify-between mb-4 sm:mb-5 border-b border-[var(--card-border-top)] pb-3 sm:pb-4">
             <h3 class="text-sm sm:text-base md:text-lg font-black  flex items-center gap-2">
-                <i class="fa-solid fa-code-compare text-blue-400"></i>
+                <svg class="svg-icon text-blue-400 w-4 h-4"><use href="#icon-code-compare"></use></svg>
                 مقایسه هوشمند آب و هوای دو شهر
             </h3>
-            <button @click="showCompareModal = false" class="text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 transition-colors">
-                <i class="fa-solid fa-xmark text-lg"></i>
+            <button @click="showCompareModal = false" class="modal-close-btn">
+                <svg class="svg-icon w-5 h-5"><use href="#icon-xmark"></use></svg>
             </button>
         </div>
 
@@ -109,7 +111,7 @@
 
                 <div x-show="weatherData?.suggestion" class="mt-4 p-4 rounded-2xl bg-[var(--search-bg)] border border-[var(--card-border)] flex items-center gap-3.5 shadow-sm relative overflow-hidden">
                     <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center flex-shrink-0 text-blue-400">
-                        <i class="fa-solid fa-lightbulb text-lg"></i>
+                        <svg class="svg-icon text-amber-400 w-5 h-5"><use href="#icon-lightbulb"></use></svg>
                     </div>
                     <div class="flex flex-col gap-0.5 min-w-0">
                         <span class="text-[11px] text-blue-400 font-extrabold">توصیه هوشمند روز</span>
@@ -132,7 +134,7 @@
         <!-- حالت لودینگ مقایسه -->
         <template x-if="isCompareLoading">
             <div class="py-12 flex flex-col items-center justify-center gap-3 text-slate-400">
-                <i class="fa-solid fa-spinner fa-spin text-3xl text-blue-400"></i>
+                <svg class="svg-icon text-blue-400 w-8 h-8 animate-spin"><use href="#icon-spinner"></use></svg>
                 <span class="text-xs font-bold">در حال دریافت و تحلیل اطلاعات آب و هوای شهر...</span>
             </div>
         </template>
@@ -146,7 +148,7 @@
                         <span class="text-[11px] text-blue-300 font-extrabold block mb-1">شهر جاری</span>
                         <h4 class="text-lg sm:text-xl font-black " x-text="weatherData?.city"></h4>
                         <div class="flex items-center justify-center gap-2 my-2">
-                            <i :class="weatherData?.statusIcon" class="text-2xl text-blue-400"></i>
+                            <svg class="svg-icon text-blue-400 w-6 h-6"><use :href="'#' + getIconSymbolId(weatherData?.statusIcon)"></use></svg>
                             <div class="text-2xl sm:text-3xl font-black " x-text="formatTemp(weatherData?.temp) + '°'"></div>
                         </div>
                         <span class="text-[11px] text-slate-300 font-bold block mb-3" x-text="weatherData?.statusText"></span>
@@ -165,7 +167,7 @@
                         <span class="text-[11px] text-indigo-300 font-extrabold block mb-1">شهر مقایسه‌شده</span>
                         <h4 class="text-lg sm:text-xl font-black " x-text="compareData.city"></h4>
                         <div class="flex items-center justify-center gap-2 my-2">
-                            <i :class="compareData.statusIcon" class="text-2xl text-indigo-400"></i>
+                            <svg class="svg-icon text-indigo-400 w-6 h-6"><use :href="'#' + getIconSymbolId(compareData.statusIcon)"></use></svg>
                             <div class="text-2xl sm:text-3xl font-black text-indigo-300" x-text="formatTemp(compareData.temp) + '°'"></div>
                         </div>
                         <span class="text-[11px] text-slate-300 font-bold block mb-3" x-text="compareData.statusText"></span>
@@ -183,7 +185,7 @@
                 <!-- باکس تحلیل و نتیجه‌گیری مقایسه -->
                 <div class="bg-gradient-to-r from-blue-900/40 via-indigo-900/40 to-slate-900/40 border border-blue-500/30 p-3.5 sm:p-4 rounded-2xl flex items-center gap-3 text-xs text-slate-200">
                     <div class="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center flex-shrink-0 text-base">
-                        <i class="fa-solid fa-scale-balanced"></i>
+                        <svg class="svg-icon w-5 h-5 text-indigo-400"><use href="#icon-scale-balanced"></use></svg>
                     </div>
                     <div>
                         <strong class=" block font-bold mb-0.5">نتیجه مقایسه:</strong>
@@ -196,7 +198,7 @@
         <!-- راهنما هنگام خالی بودن مقایسه -->
         <template x-if="!isCompareLoading && !compareData">
             <div class="py-8 text-center text-slate-400 space-y-2">
-                <i class="fa-solid fa-city text-3xl text-slate-600"></i>
+                <svg class="svg-icon text-slate-600 w-8 h-8 mx-auto"><use href="#icon-city"></use></svg>
                 <p class="text-xs font-bold">شهر دوم را جستجو کرده یا از پیشنهادهای سریع بالا انتخاب کنید تا مقایسه انجام شود.</p>
             </div>
         </template>
@@ -206,14 +208,14 @@
 <!-- مودال جزئیات تک‌تک ساعت‌ها -->
 <div x-show="selectedHour !== null" x-cloak class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/65 backdrop-blur-md no-print">
     <div @click.away="selectedHour = null" class="bento-card modal-card p-5 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto relative border border-blue-500/40 shadow-2xl reveal">
-        <button @click="selectedHour = null" class="absolute top-4 left-4 text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800/80">
-            <i class="fa-solid fa-xmark text-lg"></i>
+        <button @click="selectedHour = null" class="modal-close-btn">
+            <svg class="svg-icon w-5 h-5"><use href="#icon-xmark"></use></svg>
         </button>
 
         <template x-if="selectedHour">
             <div>
                 <div class="flex items-center gap-3.5 mb-5 border-b border-[var(--card-border-top)] pb-4">
-                    <i :class="selectedHour.icon" class="text-3xl sm:text-4xl"></i>
+                    <svg class="svg-icon w-8 h-8 sm:w-10 sm:h-10 text-indigo-400"><use :href="'#' + getIconSymbolId(selectedHour.icon)"></use></svg>
                     <div>
                         <h4 class="text-lg sm:text-xl font-black " x-text="selectedHour.isNow ? 'اکنون (' + toFarsi(selectedHour.time) + ')' : 'ساعت ' + toFarsi(selectedHour.time)"></h4>
                         <p class="text-xs text-blue-300 font-extrabold mt-0.5" x-text="selectedHour.statusText"></p>
@@ -254,15 +256,15 @@
 <!-- مودال تخصصی تحلیل و جزییات باد -->
 <div x-show="showWindModal" x-cloak class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/65 backdrop-blur-md no-print">
     <div @click.away="showWindModal = false" class="bento-card modal-card p-5 sm:p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto relative border border-indigo-500/40 shadow-2xl reveal">
-        <button @click="showWindModal = false" class="absolute top-4 left-4 text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800/80">
-            <i class="fa-solid fa-xmark text-lg"></i>
+        <button @click="showWindModal = false" class="modal-close-btn">
+            <svg class="svg-icon w-5 h-5"><use href="#icon-xmark"></use></svg>
         </button>
 
         <template x-if="weatherData">
             <div class="flex flex-col gap-5">
                 <div class="flex items-center gap-3.5 border-b border-[var(--card-border-top)] pb-4">
                     <div class="w-12 h-12 rounded-2xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                        <i class="fa-solid fa-wind text-2xl"></i>
+                        <svg class="svg-icon text-slate-400 w-6 h-6"><use href="#icon-wind"></use></svg>
                     </div>
                     <div>
                         <h4 class="text-lg sm:text-xl font-black text-[var(--text-main)]">تحلیل تخصصی سرعت و جهت باد</h4>
@@ -278,7 +280,7 @@
                         <span class="absolute right-2 text-[10px] font-black text-slate-400">شرق</span>
                         <span class="absolute left-2 text-[10px] font-black text-slate-400">غرب</span>
                         <div class="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center transition-transform duration-700 shadow-md" :style="`transform: rotate(${weatherData.windDirDeg}deg)`">
-                            <i class="fa-solid fa-location-arrow text-indigo-400 text-xl"></i>
+                            <svg class="svg-icon text-indigo-400 w-5 h-5"><use href="#icon-location-arrow"></use></svg>
                         </div>
                     </div>
                     <span class="mt-3 font-black text-2xl text-[var(--text-main)]" x-text="toFarsi(weatherData.wind) + ' km/h'"></span>
@@ -300,7 +302,7 @@
 
                 <!-- توصیه کاربردی باد -->
                 <div class="p-4 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-start gap-3">
-                    <i class="fa-solid fa-circle-info text-indigo-400 text-lg mt-0.5"></i>
+                    <svg class="svg-icon text-indigo-400 w-5 h-5 mt-0.5"><use href="#icon-circle-info"></use></svg>
                     <div class="flex flex-col gap-1">
                         <span class="text-xs font-extrabold text-indigo-300">ارزیابی کاربردی و ایمنی</span>
                         <p class="text-xs font-bold text-[var(--text-main)] leading-relaxed" x-text="weatherData.windImpact"></p>
@@ -318,15 +320,15 @@
 <!-- مودال تخصصی وضعیت ماه و نجوم -->
 <div x-show="showMoonModal" x-cloak class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/65 backdrop-blur-md no-print">
     <div @click.away="showMoonModal = false" class="bento-card modal-card p-5 sm:p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto relative border border-amber-500/40 shadow-2xl reveal">
-        <button @click="showMoonModal = false" class="absolute top-4 left-4 text-slate-400 hover:text-white p-2 rounded-xl bg-slate-800/80">
-            <i class="fa-solid fa-xmark text-lg"></i>
+        <button @click="showMoonModal = false" class="modal-close-btn">
+            <svg class="svg-icon w-5 h-5"><use href="#icon-xmark"></use></svg>
         </button>
 
         <template x-if="weatherData">
             <div class="flex flex-col gap-5">
                 <div class="flex items-center gap-3.5 border-b border-[var(--card-border-top)] pb-4">
                     <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300">
-                        <i :class="weatherData.moonPhase?.icon" class="text-2xl"></i>
+                        <svg class="svg-icon text-amber-200 w-6 h-6"><use :href="'#' + getIconSymbolId(weatherData.moonPhase?.icon)"></use></svg>
                     </div>
                     <div>
                         <h4 class="text-lg sm:text-xl font-black text-[var(--text-main)]">وضعیت نجومی ماه امشب</h4>
@@ -337,7 +339,7 @@
                 <!-- نمایش گرافیکی ماه و درصد روشنایی -->
                 <div class="flex flex-col items-center justify-center py-5 bg-[var(--search-bg)] border border-[var(--card-border)] rounded-3xl relative overflow-hidden">
                     <div class="w-24 h-24 rounded-full bg-gradient-to-br from-amber-100 via-amber-300 to-slate-800 flex items-center justify-center shadow-lg shadow-amber-500/20 border-2 border-amber-400/50 mb-3 relative overflow-hidden">
-                        <i :class="weatherData.moonPhase?.icon" class="text-4xl text-slate-950 drop-shadow"></i>
+                        <svg class="svg-icon text-slate-800 w-10 h-10 drop-shadow"><use :href="'#' + getIconSymbolId(weatherData.moonPhase?.icon)"></use></svg>
                     </div>
                     <span class="font-black text-xl text-[var(--text-main)]" x-text="weatherData.moonPhase?.text"></span>
                     <span class="text-xs text-amber-300 font-extrabold mt-1" x-text="'سن ماه: ' + weatherData.moonPhase?.age + ' روز از دوره ' + weatherData.moonPhase?.cycleDays"></span>
@@ -356,7 +358,7 @@
 
                 <!-- راهنمای رصد و عکاسی -->
                 <div class="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-start gap-3">
-                    <i class="fa-solid fa-telescope text-amber-400 text-lg mt-0.5"></i>
+                    <svg class="svg-icon text-amber-400 w-5 h-5 mt-0.5"><use href="#icon-telescope"></use></svg>
                     <div class="flex flex-col gap-1">
                         <span class="text-xs font-extrabold text-amber-300">راهنمای رصد نجومی و عکاسی شب</span>
                         <p class="text-xs font-bold text-[var(--text-main)] leading-relaxed" x-text="weatherData.moonPhase?.advice"></p>
@@ -371,15 +373,76 @@
     </div>
 </div>
 
+<!-- مودال تخصصی پایش شاخص‌های پزشکی و سلامت جوی -->
+<div x-show="selectedHealthIndex" x-cloak class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-md no-print">
+    <div @click.away="selectedHealthIndex = null" class="bento-card modal-card p-5 sm:p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto relative border border-blue-500/30 shadow-2xl reveal">
+
+
+        <template x-if="selectedHealthIndex">
+            <div class="flex flex-col gap-4 sm:gap-5">
+                <!-- سربرگ مودال -->
+                <div class="flex items-center gap-3.5 border-b border-[var(--card-border-top)] pb-4">
+                    <div class="w-12 h-12 rounded-2xl border flex items-center justify-center flex-shrink-0 shadow-2xs" :class="selectedHealthIndex.iconBg">
+                        <svg class="svg-icon w-6 h-6"><use :href="'#' + (selectedHealthIndex.symbolId || getIconSymbolId(selectedHealthIndex.icon))"></use></svg>
+                    </div>
+                    <div class="flex flex-col gap-0.5 min-w-0 flex-1">
+                        <span class="text-xs font-extrabold text-[var(--text-muted)] block" x-text="selectedHealthIndex.category"></span>
+                        <h4 class="text-base sm:text-lg font-black text-[var(--text-main)] leading-snug" x-text="selectedHealthIndex.title"></h4>
+                    </div>
+                </div>
+
+                <!-- باکس وضعیت و پارامتر اصلی -->
+                <div class="p-3.5 sm:p-4 rounded-2xl bg-[var(--search-bg)] border border-[var(--card-border)] flex items-center justify-between gap-3 shadow-2xs">
+                    <div class="flex flex-col gap-1 min-w-0">
+                        <span class="text-[10px] text-[var(--text-muted)] font-extrabold">پارامترسنجی جوی مرتبط</span>
+                        <span class="text-sm sm:text-base font-black text-blue-600 dark:text-blue-400" x-text="selectedHealthIndex.metric"></span>
+                    </div>
+                    <div class="flex flex-col items-end gap-1 flex-shrink-0">
+                        <span class="text-[10px] text-[var(--text-muted)] font-extrabold">سطح سنجش ریسک</span>
+                        <span class="text-xs font-black px-3 py-1 rounded-xl border shadow-2xs" :class="selectedHealthIndex.badgeBg" x-text="selectedHealthIndex.status"></span>
+                    </div>
+                </div>
+
+                <!-- مکانیزم جوی و پزشکی -->
+                <div class="p-3.5 sm:p-4 rounded-2xl bg-[var(--search-bg)] border border-[var(--card-border)] flex flex-col gap-2 shadow-2xs">
+                    <div class="flex items-center gap-2 text-xs font-black text-[var(--text-main)]">
+                        <div class="w-6 h-6 rounded-lg bg-blue-500/15 text-blue-600 dark:text-blue-400 flex items-center justify-center flex-shrink-0 shadow-2xs">
+                            <svg class="svg-icon w-3.5 h-3.5"><use href="#icon-circle-info"></use></svg>
+                        </div>
+                        تحلیل بیوکلیماتیک و مکانیزم بدن:
+                    </div>
+                    <p class="text-xs font-medium text-[var(--text-main)] opacity-90 leading-relaxed" x-text="selectedHealthIndex.desc"></p>
+                </div>
+
+                <!-- توصیه پزشکی و پیشگیری -->
+                <div class="p-3.5 sm:p-4 rounded-2xl health-advice-box flex flex-col gap-2 shadow-2xs">
+                    <div class="flex items-center gap-2 text-xs font-black health-advice-title">
+                        <div class="w-6 h-6 rounded-lg bg-emerald-500/20 flex items-center justify-center flex-shrink-0 shadow-2xs">
+                            <svg class="svg-icon w-3.5 h-3.5"><use href="#icon-lightbulb"></use></svg>
+                        </div>
+                        توصیه‌ها و اقدامات پیشگیرانه پزشکی:
+                    </div>
+                    <p class="text-xs sm:text-[13px] font-bold health-advice-text leading-relaxed" x-text="selectedHealthIndex.advice"></p>
+                </div>
+
+                <!-- دکمه بستن -->
+                <button @click="selectedHealthIndex = null" class="w-full py-3 sm:py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs sm:text-sm transition-all shadow-md shadow-blue-500/20 active:scale-[0.99] border-0 cursor-pointer">
+                    متوجه شدم
+                </button>
+            </div>
+        </template>
+    </div>
+</div>
+
 <!-- هدر و نوار ابزار اصلی -->
-<header class="max-w-6xl mx-auto px-3 sm:px-6 mb-6 sm:mb-8 flex flex-col gap-3 sm:gap-4 reveal relative z-50 no-print">
+<header class="max-w-7xl mx-auto pt-3 sm:pt-6 mt-1 sm:mt-3 px-3 sm:px-6 lg:px-8 mb-5 sm:mb-8 flex flex-col gap-3 sm:gap-4 reveal relative z-50 no-print">
     <!-- Row 1: Logo and Action Buttons & Controls -->
     <div class="w-full flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
         <!-- Logo -->
         <div class="w-full sm:w-auto flex items-center justify-between sm:justify-start gap-3 cursor-pointer group flex-shrink-0" @click="getUserLocation(true)">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/30 transition-all duration-500 group-hover:rotate-[15deg] group-hover:scale-110 flex-shrink-0">
-                    <i class="fa-solid fa-cloud-sun-rain text-lg sm:text-xl text-white"></i>
+                    <svg class="svg-icon text-white w-5 h-5 sm:w-6 sm:h-6"><use href="#icon-cloud-sun-rain"></use></svg>
                 </div>
                 <div>
                     <h1 class="text-lg sm:text-2xl font-black tracking-tight whitespace-nowrap">هواشناسی <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">پرو</span></h1>
@@ -390,7 +453,7 @@
                 <button @click="toggleTheme()" 
                         class="w-9 h-9 rounded-xl bg-[var(--search-bg)] border border-[var(--card-border-top)] text-amber-400 flex items-center justify-center shadow-inner active:scale-95"
                         :title="theme === 'dark' ? 'تم روشن' : 'تم تاریک'">
-                    <i class="fa-solid text-sm" :class="theme === 'dark' ? 'fa-sun text-amber-300' : 'fa-moon text-indigo-400'"></i>
+                    <svg class="svg-icon text-sm sm:text-base w-4 h-4" :class="theme === 'dark' ? 'text-amber-300' : 'text-indigo-400'"><use :href="theme === 'dark' ? '#icon-sun' : '#icon-moon'"></use></svg>
                 </button>
                 <div class="h-9 flex items-center bg-[var(--search-bg)] p-0.5 rounded-xl border border-[var(--card-border-top)] shadow-inner">
                     <button @click="toggleUnit('C')" 
@@ -413,17 +476,17 @@
                     :disabled="isRefreshing"
                     class="h-10 sm:h-11 px-3.5 rounded-xl bg-[var(--search-bg)] border border-[var(--card-border-top)] hover:bg-blue-600 hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-inner active:scale-95 disabled:opacity-50"
                     title="بروزرسانی اطلاعات آب و هوا">
-                <i class="fa-solid fa-arrows-rotate text-blue-400 group-hover:text-white" :class="isRefreshing ? 'fa-spin text-blue-300' : ''"></i>
+                <svg class="svg-icon fa-arrows-rotate text-blue-400 group-hover:text-white w-4 h-4" :class="isRefreshing ? 'animate-spin text-blue-300' : ''"><use href="#icon-arrows-rotate"></use></svg>
                 <span class="inline">بروزرسانی</span>
             </button>
             <button @click="showCompareModal = true; vibrate(30);" class="h-10 sm:h-11 px-3.5 rounded-xl bg-[var(--search-bg)] border border-[var(--card-border-top)] hover:bg-indigo-600 text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-inner active:scale-95" title="مقایسه شهرهای مختلف">
-                <i class="fa-solid fa-code-compare text-indigo-400 group-hover:text-white"></i>
+                <svg class="svg-icon fa-code-compare text-indigo-400 group-hover:text-white w-4 h-4"><use href="#icon-code-compare"></use></svg>
                 <span class="inline">مقایسه</span>
             </button>
             <button @click="toggleTheme()" 
                     class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-[var(--search-bg)] border border-[var(--card-border-top)] hover:bg-amber-500/20 hover:border-amber-500/50 text-amber-400 transition-all flex items-center justify-center shadow-inner active:scale-95 flex-shrink-0"
                     :title="theme === 'dark' ? 'تغییر به تم روشن' : 'تغییر به تم تاریک'">
-                <i class="fa-solid text-sm sm:text-base" :class="theme === 'dark' ? 'fa-sun text-amber-300' : 'fa-moon text-indigo-400'"></i>
+                <svg class="svg-icon text-sm sm:text-base w-4 h-4" :class="theme === 'dark' ? 'fa-sun text-amber-300' : 'fa-moon text-indigo-400'"><use :href="theme === 'dark' ? '#icon-sun' : '#icon-moon'"></use></svg>
             </button>
             <div class="h-10 sm:h-11 flex items-center bg-[var(--search-bg)] p-1 rounded-xl border border-[var(--card-border-top)] shadow-inner flex-shrink-0">
                 <button @click="toggleUnit('C')" 
@@ -444,21 +507,21 @@
             <button @click="refreshWeather()" 
                     :disabled="isRefreshing"
                     class="flex-1 h-10 px-3 rounded-xl bg-[var(--search-bg)] border border-[var(--card-border-top)] hover:bg-blue-600 hover:text-white text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-inner active:scale-95 disabled:opacity-50">
-                <i class="fa-solid fa-arrows-rotate text-blue-400" :class="isRefreshing ? 'fa-spin text-blue-300' : ''"></i>
+                <svg class="svg-icon fa-arrows-rotate text-blue-400 w-4 h-4" :class="isRefreshing ? 'animate-spin text-blue-300' : ''"><use href="#icon-arrows-rotate"></use></svg>
                 <span>بروزرسانی</span>
             </button>
             <button @click="showCompareModal = true; vibrate(30);" class="flex-1 h-10 px-3 rounded-xl bg-[var(--search-bg)] border border-[var(--card-border-top)] hover:bg-indigo-600 text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-inner active:scale-95">
-                <i class="fa-solid fa-code-compare text-indigo-400"></i>
+                <svg class="svg-icon fa-code-compare text-indigo-400 w-4 h-4"><use href="#icon-code-compare"></use></svg>
                 <span>مقایسه شهرها</span>
             </button>
         </div>
     </div>
 
         <!-- Search Box -->
-        <div class="w-full lg:max-w-lg xl:max-w-xl relative my-1 lg:my-0" @click.away="showSuggestions = false">
+        <div class="w-full relative my-1 lg:my-0" @click.away="showSuggestions = false">
             <div class="search-container flex items-center rounded-2xl px-2 py-2 relative h-14 sm:h-16">
                 <div class="absolute right-4 sm:right-5 top-1/2 -translate-y-1/2 text-slate-400">
-                    <i class="fa-solid fa-magnifying-glass text-base sm:text-lg"></i>
+                    <svg class="svg-icon fa-magnifying-glass text-base sm:text-lg w-5 h-5"><use href="#icon-magnifying-glass"></use></svg>
                 </div>
                 
                 <input 
@@ -476,10 +539,10 @@
                             x-transition.opacity
                             @click="clearSearch()" 
                             class="text-slate-500 hover:text-[var(--text-main)] transition-colors px-1">
-                        <i class="fa-solid fa-circle-xmark text-lg sm:text-xl"></i>
+                        <svg class="svg-icon fa-circle-xmark text-lg sm:text-xl w-5 h-5"><use href="#icon-circle-xmark"></use></svg>
                     </button>
                     <button @click="getUserLocation(true)" class="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center rounded-xl bg-[var(--search-bg)] text-blue-400 hover:bg-blue-500 hover:text-white transition-all border border-[var(--card-border-top)] hover:border-blue-400 shadow-sm active:scale-95" title="موقعیت فعلی من">
-                        <i class="fa-solid fa-location-crosshairs text-lg sm:text-xl"></i>
+                        <svg class="svg-icon fa-location-crosshairs text-lg sm:text-xl w-5 h-5"><use href="#icon-location-crosshairs"></use></svg>
                     </button>
                     <button @click="handleEnter()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-500 hover:to-indigo-500 h-9 sm:h-11 px-3.5 sm:px-6 rounded-xl transition-all duration-300 text-xs sm:text-sm font-bold shadow-md shadow-blue-600/30 active:scale-95">
                         جستجو
@@ -498,12 +561,12 @@
                  class="ultimate-dropdown">
                 
                 <div x-show="isSearching" class="p-8 text-center text-blue-400 text-sm font-bold flex flex-col items-center justify-center gap-3">
-                    <i class="fa-solid fa-circle-notch fa-spin text-2xl"></i>
+                    <svg class="svg-icon fa-circle-notch animate-spin text-2xl w-6 h-6"><use href="#icon-spinner"></use></svg>
                     <span>در حال اسکن موقعیت‌ها...</span>
                 </div>
 
                 <div x-show="!isSearching && suggestions.length === 0 && city.length >= 2" class="p-8 text-center text-slate-400 text-sm flex flex-col items-center gap-3">
-                    <i class="fa-regular fa-compass text-3xl opacity-50"></i>
+                    <svg class="svg-icon fa-compass text-3xl opacity-50 w-8 h-8"><use href="#icon-compass"></use></svg>
                     <span>نتیجه‌ای یافت نشد. املای شهر را بررسی کنید.</span>
                 </div>
 
@@ -512,7 +575,7 @@
                         <li @click="selectCity(item)" class="suggestion-item p-4 mx-2 rounded-xl flex justify-between items-center text-right group">
                             <div class="flex items-center gap-4">
                                 <div class="w-10 h-10 rounded-full bg-[var(--search-bg)] flex items-center justify-center group-hover:bg-blue-500/20 group-hover:text-blue-400 transition-colors">
-                                    <i class="fa-solid fa-location-dot text-sm"></i>
+                                    <svg class="svg-icon fa-location-dot text-sm w-4 h-4"><use href="#icon-location-dot"></use></svg>
                                 </div>
                                 <div class="flex flex-col">
                                     <span x-text="item.name" class="font-bold text-[var(--text-main)] transition-colors"></span>
@@ -525,58 +588,62 @@
                 </ul>
             </div>
 
-            <!-- میانبر انتخاب سریع شهرهای کلیدی -->
-            <div class="flex items-center gap-1.5 mt-2.5 flex-wrap text-xs py-0.5">
-                <span class="text-[10px] sm:text-[11px] text-slate-400 font-extrabold flex-shrink-0 ml-1 flex items-center gap-1">
-                    <i class="fa-solid fa-fire text-amber-400"></i> دسترسی سریع:
-                </span>
-                <button @click="fetchWeather(35.6892, 51.3890, 'تهران', 'استان تهران'); vibrate(15)" class="px-2.5 py-1 rounded-xl bg-[var(--search-bg)] hover:bg-blue-600 hover:text-white text-slate-400 border border-[var(--card-border-top)] text-[10px] sm:text-[11px] font-bold transition-all flex-shrink-0 active:scale-95">تهران</button>
-                <button @click="fetchWeather(36.2972, 59.6067, 'مشهد', 'خراسان رضوی'); vibrate(15)" class="px-2.5 py-1 rounded-xl bg-[var(--search-bg)] hover:bg-blue-600 hover:text-white text-slate-400 border border-[var(--card-border-top)] text-[10px] sm:text-[11px] font-bold transition-all flex-shrink-0 active:scale-95">مشهد</button>
-                <button @click="fetchWeather(32.6546, 51.6680, 'اصفهان', 'استان اصفهان'); vibrate(15)" class="px-2.5 py-1 rounded-xl bg-[var(--search-bg)] hover:bg-blue-600 hover:text-white text-slate-400 border border-[var(--card-border-top)] text-[10px] sm:text-[11px] font-bold transition-all flex-shrink-0 active:scale-95">اصفهان</button>
-                <button @click="fetchWeather(29.5918, 52.5837, 'شیراز', 'استان فارس'); vibrate(15)" class="px-2.5 py-1 rounded-xl bg-[var(--search-bg)] hover:bg-blue-600 hover:text-white text-slate-400 border border-[var(--card-border-top)] text-[10px] sm:text-[11px] font-bold transition-all flex-shrink-0 active:scale-95">شیراز</button>
-                <button @click="fetchWeather(38.0800, 46.2919, 'تبریز', 'آذربایجان شرقی'); vibrate(15)" class="px-2.5 py-1 rounded-xl bg-[var(--search-bg)] hover:bg-blue-600 hover:text-white text-slate-400 border border-[var(--card-border-top)] text-[10px] sm:text-[11px] font-bold transition-all flex-shrink-0 active:scale-95">تبریز</button>
-                <button @click="fetchWeather(37.2808, 49.5832, 'رشت', 'استان گیلان'); vibrate(15)" class="px-2.5 py-1 rounded-xl bg-[var(--search-bg)] hover:bg-blue-600 hover:text-white text-slate-400 border border-[var(--card-border-top)] text-[10px] sm:text-[11px] font-bold transition-all flex-shrink-0 active:scale-95">رشت</button>
-                <button @click="fetchWeather(26.5578, 54.0194, 'کیش', 'استان هرمزگان'); vibrate(15)" class="px-2.5 py-1 rounded-xl bg-[var(--search-bg)] hover:bg-blue-600 hover:text-white text-slate-400 border border-[var(--card-border-top)] text-[10px] sm:text-[11px] font-bold transition-all flex-shrink-0 active:scale-95">کیش</button>
-                <button @click="fetchWeather(31.3183, 48.6706, 'اهواز', 'استان خوزستان'); vibrate(15)" class="px-2.5 py-1 rounded-xl bg-[var(--search-bg)] hover:bg-blue-600 hover:text-white text-slate-400 border border-[var(--card-border-top)] text-[10px] sm:text-[11px] font-bold transition-all flex-shrink-0 active:scale-95">اهواز</button>
+            <!-- میانبر انتخاب سریع شهرهای کلیدی (ارتقایافته و کاملا ریسپانسو برای موبایل و دسکتاپ) -->
+            <div class="w-full mt-3 p-3 sm:p-4 rounded-2xl bg-[var(--search-bg)] border border-[var(--card-border-top)] shadow-sm">
+                <div class="flex flex-wrap items-center gap-2 text-xs">
+                    <span class="text-xs text-amber-700 dark:text-amber-300 font-black flex-shrink-0 flex items-center gap-1.5 bg-amber-500/15 border border-amber-500/35 px-3 py-1.5 rounded-xl shadow-2xs">
+                        <svg class="svg-icon text-amber-600 dark:text-amber-400 w-4 h-4"><use href="#icon-fire"></use></svg>
+                        <span class="whitespace-nowrap">دسترسی سریع:</span>
+                    </span>
+                    <template x-for="qc in quickCities" :key="qc.name">
+                        <button @click="fetchWeather(qc.lat, qc.lon, qc.name, qc.admin); vibrate(15)"
+                                :class="weatherData?.cityName?.includes(qc.name) ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-blue-500 shadow-md shadow-blue-600/30 font-black' : 'bg-[var(--card-bg)] text-[var(--text-main)] border-[var(--card-border)] hover:bg-blue-600 hover:text-white hover:border-blue-500 font-bold'"
+                                class="px-3 py-1.5 rounded-xl border text-xs transition-all active:scale-95 shadow-2xs whitespace-nowrap">
+                            <span x-text="qc.name"></span>
+                        </button>
+                    </template>
+                </div>
             </div>
     </div>
 </header>
 
 <!-- کارت شهرهای نشان‌شده (علاقه‌مندی‌ها) -->
-<div class="max-w-6xl mx-auto px-4 sm:px-6 mb-6 reveal no-print">
-    <div class="bento-card p-5 border-amber-500/30">
-    <div class="flex items-center justify-between mb-3 border-b border-amber-500/15 pb-2.5">
-        <span class="text-xs font-extrabold text-amber-300 flex items-center gap-2">
-            <i class="fa-solid fa-star text-amber-400 text-sm"></i>
-            شهرهای نشان‌شده (علاقه‌مندی‌ها)
-            <span x-show="favorites.length > 0" class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-md font-bold" x-text="toFarsi(favorites.length) + ' شهر'"></span>
+<div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-5 reveal no-print">
+    <div class="bento-card p-4 sm:p-5 border-amber-500/40 shadow-md">
+    <div class="flex items-center justify-between gap-2 mb-3 border-b border-amber-500/20 pb-2.5">
+        <span class="text-xs sm:text-sm font-black text-amber-600 dark:text-amber-300 flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <svg class="svg-icon fa-star text-amber-500 dark:text-amber-400 w-4 h-4 flex-shrink-0"><use href="#icon-star"></use></svg>
+            <span class="truncate">شهرهای نشان‌شده</span>
+            <span x-show="favorites.length > 0" class="text-[10px] bg-amber-500/20 text-amber-700 dark:text-amber-300 px-1.5 py-0.5 rounded-md font-black flex-shrink-0" x-text="toFarsi(favorites.length) + ' شهر'"></span>
         </span>
 
-        <button x-show="favorites.length > 0" @click="clearFavorites()" class="text-[11px] text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1 font-bold">
-            <i class="fa-solid fa-trash-can text-xs"></i>
+        <button x-show="favorites.length > 0" @click="clearFavorites()" class="text-xs text-red-600 dark:text-red-400 hover:text-white bg-red-500/10 hover:bg-red-600 dark:bg-red-950/40 dark:hover:bg-red-600 border border-red-500/30 hover:border-red-600 transition-all px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-xl flex items-center gap-1 sm:gap-1.5 font-bold shadow-2xs group flex-shrink-0">
+            <svg class="svg-icon fa-trash-can w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-500 group-hover:text-white transition-colors"><use href="#icon-trash-can"></use></svg>
             <span>حذف همه</span>
         </button>
     </div>
 
-    <div x-show="favorites.length === 0" class="py-3 text-center text-slate-400 text-xs flex flex-col items-center gap-2">
-        <i class="fa-regular fa-star text-amber-400/50 text-2xl animate-pulse"></i>
+    <div x-show="favorites.length === 0" class="py-4 text-center text-slate-500 dark:text-slate-400 text-xs flex flex-col items-center gap-2">
+        <svg class="svg-icon fa-star text-amber-500/60 dark:text-amber-400/50 w-6 h-6 animate-pulse"><use href="#icon-star"></use></svg>
         <span>هنوز هیچ شهری را نشان نکرده‌اید. با کلیک روی دکمه ستاره (⭐) در کارت اصلی، شهر جاری را به علاقه‌مندی‌ها اضافه کنید.</span>
     </div>
 
-    <div x-show="favorites.length > 0" class="flex flex-wrap gap-2.5">
+    <div x-show="favorites.length > 0" class="grid grid-cols-1 min-[450px]:grid-cols-2 sm:flex sm:flex-wrap gap-2">
         <template x-for="(fCity, index) in favorites" :key="fCity.name">
-            <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-200 transition-all group shadow-sm">
+            <div class="flex items-center justify-between gap-1.5 pl-1 pr-3 py-1.5 sm:py-2 rounded-xl bg-amber-500/5 dark:bg-amber-500/10 hover:bg-amber-500/15 dark:hover:bg-amber-500/20 border border-amber-500/25 text-amber-900 dark:text-amber-200 transition-all group shadow-2xs w-full sm:w-auto">
                 <button @click="fetchWeather(fCity.lat, fCity.lon, fCity.name, fCity.province)" 
-                        class="flex items-center gap-1.5 text-right outline-none">
-                    <i class="fa-solid fa-star text-[10px] text-amber-400"></i>
-                    <span class="text-xs font-bold text-amber-100 group-hover:text-white transition-colors" x-text="fCity.name"></span>
-                    <span x-show="fCity.province" class="text-[10px] font-medium text-amber-300/70" x-text="'(' + fCity.province + ')'"></span>
+                        class="flex items-center gap-1.5 text-right outline-none min-w-0 py-0.5 flex-1">
+                    <svg class="svg-icon fa-star text-[10px] text-amber-500 dark:text-amber-400 w-3 h-3 flex-shrink-0"><use href="#icon-star"></use></svg>
+                    <span class="text-xs font-black text-amber-900 dark:text-amber-100 group-hover:text-blue-600 dark:group-hover:text-white transition-colors truncate max-w-[150px] sm:max-w-none" x-text="fCity.name"></span>
+                    <span x-show="fCity.province" class="text-[10px] font-bold text-amber-700/70 dark:text-amber-300/60 truncate max-w-[100px] sm:max-w-none" x-text="'(' + fCity.province + ')'"></span>
                 </button>
 
+                <div class="w-[1px] h-4 bg-amber-500/20 self-center mx-0.5"></div>
+
                 <button @click.stop="removeFavorite(index)" 
-                        class="text-amber-400/60 hover:text-red-400 hover:bg-red-500/20 rounded-md p-1 transition-all mr-0.5 flex items-center justify-center" 
+                        class="text-amber-700/60 dark:text-amber-400/60 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/20 rounded-lg p-1.5 transition-all flex items-center justify-center w-7 h-7 flex-shrink-0" 
                         title="حذف از نشان‌شده‌ها">
-                    <i class="fa-solid fa-xmark text-xs"></i>
+                    <svg class="svg-icon fa-xmark text-xs w-3 h-3"><use href="#icon-xmark"></use></svg>
                 </button>
             </div>
         </template>
@@ -586,12 +653,12 @@
 
 <!-- بنر هشدارهای اضطراری جوی -->
 <template x-if="weatherData?.alerts && weatherData.alerts.length > 0">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 mb-6 flex flex-col gap-3 reveal no-print">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-5 flex flex-col gap-3 reveal no-print">
         <template x-for="alert in weatherData.alerts" :key="alert.title">
             <div class="p-4 rounded-2xl border flex items-center justify-between backdrop-blur-xl shadow-lg" :class="alert.bg">
                 <div class="flex items-center gap-3.5">
                     <div class="w-10 h-10 rounded-xl bg-black/20 flex items-center justify-center flex-shrink-0 animate-pulse">
-                        <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+                        <svg class="svg-icon fa-triangle-exclamation text-lg w-5 h-5"><use href="#icon-triangle-exclamation"></use></svg>
                     </div>
                     <div>
                         <h4 class="text-sm font-black" x-text="alert.title"></h4>
@@ -604,34 +671,37 @@
 </template>
 
 <!-- کارت آخرین ۱۰ شهر جستجو شده -->
-<div x-show="recentCities.length > 0" class="max-w-6xl mx-auto px-4 sm:px-6 mb-8 reveal no-print">
-    <div class="bento-card p-5">
-    <div class="flex items-center justify-between mb-3.5 border-b border-[var(--card-border)] pb-3">
-        <span class="text-xs font-bold text-slate-300 flex items-center gap-2">
-            <i class="fa-solid fa-clock-rotate-left text-blue-400"></i>
-            آخرین جستجوها (<span class="text-blue-400 font-extrabold" x-text="toFarsi(recentCities.length)"></span> شهر)
+<div x-show="recentCities.length > 0" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-6 reveal no-print">
+    <div class="bento-card p-4 sm:p-5 border-blue-500/40 shadow-md">
+    <div class="flex items-center justify-between gap-2 mb-3.5 border-b border-blue-500/20 pb-3">
+        <span class="text-xs sm:text-sm font-black text-blue-800 dark:text-blue-300 flex items-center gap-1.5 sm:gap-2 min-w-0">
+            <svg class="svg-icon fa-clock-rotate-left text-blue-600 dark:text-blue-400 w-4 h-4 flex-shrink-0"><use href="#icon-arrows-rotate"></use></svg>
+            <span class="truncate">آخرین جستجوها</span>
+            <span class="text-blue-700 dark:text-blue-400 font-black flex-shrink-0" x-text="'(' + toFarsi(recentCities.length) + ' شهر)'"></span>
         </span>
         
-        <button @click="clearHistory()" class="text-[11px] text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1.5 px-2.5 py-1 rounded-lg hover:bg-red-500/10 border border-transparent hover:border-red-500/20 active:scale-95" title="پاک‌سازی کامل تاریخچه">
-            <i class="fa-solid fa-trash-can text-xs"></i>
-            <span class="font-bold">پاک‌سازی همه</span>
+        <button @click="clearHistory()" class="text-xs text-red-600 dark:text-red-400 hover:text-white bg-red-500/10 hover:bg-red-600 dark:bg-red-950/40 dark:hover:bg-red-600 border border-red-500/30 hover:border-red-600 transition-all px-2.5 py-1 sm:px-3.5 sm:py-1.5 rounded-xl flex items-center gap-1 sm:gap-1.5 font-bold shadow-2xs group flex-shrink-0" title="پاک‌سازی کامل تاریخچه">
+            <svg class="svg-icon fa-trash-can w-3 h-3 sm:w-3.5 sm:h-3.5 text-red-500 group-hover:text-white transition-colors"><use href="#icon-trash-can"></use></svg>
+            <span>پاک‌سازی همه</span>
         </button>
     </div>
 
-    <div class="flex flex-wrap gap-2.5">
+    <div class="grid grid-cols-1 min-[450px]:grid-cols-2 sm:flex sm:flex-wrap gap-2">
         <template x-for="(rCity, index) in recentCities" :key="rCity.name">
-            <div class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-800/80 hover:bg-blue-600 hover:text-white/20 border border-slate-700/60 hover:border-blue-500/40 transition-all group shadow-sm">
+            <div class="flex items-center justify-between gap-1.5 pl-1 pr-3 py-1.5 sm:py-2 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 border border-slate-300 dark:border-slate-700/60 hover:border-blue-500 dark:hover:border-blue-500 transition-all group shadow-2xs w-full sm:w-auto">
                 <button @click="fetchWeather(rCity.lat, rCity.lon, rCity.name, rCity.province)" 
-                        class="flex items-center gap-1.5 text-right outline-none">
-                    <i class="fa-solid fa-location-dot text-[10px] text-slate-500 group-hover:text-blue-400 transition-colors"></i>
-                    <span class="text-xs font-bold text-slate-200 group-hover:text-white transition-colors" x-text="rCity.name"></span>
-                    <span x-show="rCity.province" class="text-[10px] font-medium text-slate-400 group-hover:text-slate-300" x-text="'(' + rCity.province + ')'"></span>
+                        class="flex items-center gap-1.5 text-right outline-none min-w-0 py-0.5 flex-1">
+                    <svg class="svg-icon fa-location-dot text-[10px] text-blue-600 dark:text-slate-400 group-hover:text-white transition-colors w-3 h-3 flex-shrink-0"><use href="#icon-location-dot"></use></svg>
+                    <span class="text-xs font-black text-slate-900 dark:text-slate-200 group-hover:text-white transition-colors truncate max-w-[150px] sm:max-w-none" x-text="rCity.name"></span>
+                    <span x-show="rCity.province" class="text-[10px] font-bold text-slate-700 dark:text-slate-400 group-hover:text-blue-200 dark:group-hover:text-slate-300 truncate max-w-[100px] sm:max-w-none" x-text="'(' + rCity.province + ')'"></span>
                 </button>
 
+                <div class="w-[1px] h-4 bg-slate-300 dark:bg-slate-700 group-hover:bg-blue-400 self-center mx-0.5 transition-colors"></div>
+
                 <button @click.stop="removeFromHistory(index)" 
-                        class="text-slate-500 hover:text-red-400 hover:bg-red-500/20 rounded-md p-1 transition-all mr-0.5 flex items-center justify-center" 
+                        class="text-slate-600 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 group-hover:text-white hover:bg-red-500/20 rounded-lg p-1.5 transition-all flex items-center justify-center w-7 h-7 flex-shrink-0" 
                         title="حذف این شهر">
-                    <i class="fa-solid fa-xmark text-xs"></i>
+                    <svg class="svg-icon fa-xmark text-xs w-3 h-3"><use href="#icon-xmark"></use></svg>
                 </button>
             </div>
         </template>
@@ -639,22 +709,22 @@
     </div>
 </div>
 
-<div x-show="error" x-cloak class="max-w-6xl mx-auto px-4 sm:px-6 mb-6 reveal relative z-40 no-print">
-    <div class="p-5 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 flex items-center justify-between backdrop-blur-md">
+<div x-show="error" x-cloak class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 mb-6 reveal relative z-40 no-print">
+    <div class="p-4 sm:p-5 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400 flex items-center justify-between backdrop-blur-md">
     <div class="flex items-center gap-4">
-        <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
-            <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+        <div class="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+            <svg class="svg-icon fa-triangle-exclamation text-lg w-5 h-5"><use href="#icon-triangle-exclamation"></use></svg>
         </div>
-        <span class="text-sm font-bold" x-text="errorMessage"></span>
+        <span class="text-xs sm:text-sm font-bold" x-text="errorMessage"></span>
     </div>
-    <button @click="init()" class="bg-red-600 hover:bg-red-500  px-5 py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95 shadow-lg shadow-red-600/20">
+    <button @click="init()" class="bg-red-600 hover:bg-red-500 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all active:scale-95 shadow-lg shadow-red-600/20 flex-shrink-0">
         تلاش مجدد
     </button>
     </div>
 </div>
 
 <!-- محتوای اصلی داشبورد -->
-<main class="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-3 gap-6 reveal relative z-10" :class="error ? 'opacity-50 pointer-events-none blur-sm transition-all' : 'transition-all'">
+<main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 reveal relative z-10" :class="error ? 'opacity-50 pointer-events-none blur-sm transition-all' : 'transition-all'">
     
     <div class="lg:col-span-2 flex flex-col gap-6">
         
@@ -683,28 +753,28 @@
                                     :class="isCurrentFavorite ? 'bg-amber-500/20 text-amber-300 border-amber-500/50 shadow-[0_0_15px_rgba(245,158,11,0.3)]' : 'bg-slate-800/80 text-slate-400 border-slate-700/60 hover:text-amber-300'"
                                     class="h-10 px-3.5 rounded-xl transition-all flex items-center justify-center gap-1.5 border shadow-sm active:scale-95 text-xs font-bold" 
                                     :title="isCurrentFavorite ? 'حذف از نشان‌شده‌ها' : 'افزودن به نشان‌شده‌ها'">
-                                <i class="fa-solid fa-star text-xs sm:text-sm" :class="isCurrentFavorite ? 'text-amber-400 animate-pulse' : 'text-slate-400'"></i>
+                                <svg class="svg-icon fa-star text-xs sm:text-sm w-4 h-4" :class="isCurrentFavorite ? 'text-amber-400 animate-pulse' : 'text-slate-400'"><use href="#icon-star"></use></svg>
                                 <span x-text="isCurrentFavorite ? 'نشان‌شده' : 'نشان کردن'"></span>
                             </button>
 
                             <button @click="shareWeather()" class="w-10 h-10 rounded-xl bg-slate-800/80 hover:bg-blue-600 hover:text-white text-slate-300 hover:text-white transition-all flex items-center justify-center border border-slate-700/60 shadow-sm active:scale-95" title="اشتراک‌گذاری گزارش">
-                                <i class="fa-solid fa-share-nodes text-xs sm:text-sm"></i>
+                                <svg class="svg-icon fa-share-nodes text-xs sm:text-sm w-4 h-4"><use href="#icon-share-nodes"></use></svg>
                             </button>
                         </div>
                     </div>
                     
                     <p x-show="weatherData?.province" class="text-blue-300/90 text-xs sm:text-sm font-bold mb-2 flex items-center gap-1.5">
-                        <i class="fa-solid fa-map-pin text-xs text-blue-400"></i>
+                        <svg class="svg-icon fa-map-pin text-xs text-blue-400 w-3.5 h-3.5"><use href="#icon-location-dot"></use></svg>
                         <span x-text="weatherData?.province"></span>
                     </p>
 
                     <div class="flex items-center gap-3 text-slate-300 text-xs sm:text-sm mb-5 font-semibold flex-wrap">
                         <p class="flex items-center gap-1.5">
-                            <i class="fa-regular fa-calendar-days text-xs text-slate-400"></i>
+                            <svg class="svg-icon fa-calendar-days text-xs text-slate-400 w-3.5 h-3.5"><use href="#icon-calendar-days"></use></svg>
                             <span x-text="weatherData?.date"></span>
                         </p>
                         <p class="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-[var(--card-bg)] border border-slate-700/60 text-cyan-300 font-bold shadow-sm">
-                            <i class="fa-regular fa-clock text-xs text-cyan-400 animate-pulse"></i>
+                            <svg class="svg-icon fa-clock text-xs text-cyan-400 animate-pulse w-3.5 h-3.5"><use href="#icon-clock"></use></svg>
                             <span class="text-[11px] text-slate-400">ساعت محلی:</span>
                             <span class="font-black text-xs sm:text-sm text-cyan-300 dir-ltr font-mono" x-text="weatherData?.cityLocalTime || liveTime"></span>
                         </p>
@@ -713,19 +783,19 @@
                 
                 <div class="flex items-center gap-3 flex-wrap">
                     <div class="inline-flex items-center justify-center gap-2 px-4 h-10 rounded-xl bg-blue-500/10 text-blue-300 text-xs sm:text-sm font-black border border-blue-500/20 backdrop-blur-sm shadow-inner">
-                        <i :class="weatherData?.statusIcon" class="text-sm"></i>
+                        <svg class="svg-icon text-sm w-4 h-4" :class="getIconSymbolId(weatherData?.statusIcon)"><use :href="'#' + getIconSymbolId(weatherData?.statusIcon)"></use></svg>
                         <span x-text="weatherData?.statusText"></span>
                     </div>
 
                     <div class="inline-flex items-center justify-center gap-2 px-4 h-10 rounded-xl bg-slate-900/60 border border-[var(--card-border-top)] text-xs sm:text-sm font-bold" :class="weatherData?.tempDiffClass">
-                        <i class="fa-solid fa-chart-line text-xs"></i>
+                        <svg class="svg-icon fa-chart-line text-xs w-3.5 h-3.5"><use href="#icon-chart-line"></use></svg>
                         <span x-text="weatherData?.tempDiffText"></span>
                     </div>
                 </div>
             </div>
 
             <div class="text-center z-10 relative flex flex-col items-center justify-center min-w-[220px] sm:min-w-[260px]">
-                <i :class="weatherData?.statusIcon" class="text-5xl sm:text-6xl md:text-7xl mb-2 animate-float drop-shadow-2xl"></i>
+                <svg class="svg-icon text-5xl sm:text-6xl md:text-7xl mb-2 animate-float drop-shadow-2xl w-16 h-16 sm:w-20 sm:h-20" :class="getIconSymbolId(weatherData?.statusIcon)"><use :href="'#' + getIconSymbolId(weatherData?.statusIcon)"></use></svg>
                 
                 <div class="text-6xl sm:text-7xl md:text-[7.5rem] leading-none font-black tracking-tighter temp-glow my-2" x-text="formatTemp(weatherData?.temp) + '°'"></div>
 
@@ -742,87 +812,39 @@
                 </div>
             </div>
 
-            <i :class="weatherData?.statusIcon" class="absolute -bottom-16 -left-16 text-[14rem] sm:text-[18rem] md:text-[22rem] opacity-[0.04] rotate-12 transition-all duration-1000 ease-out group-hover:scale-110 pointer-events-none"></i>
-        </div>
-
-        <!-- کارت شاخص‌های پزشکی و سلامت جوی -->
-        <div x-show="!loading && weatherData" x-cloak class="bento-card p-4 sm:p-6">
-            <h3 class="text-xs font-extrabold text-slate-300 mb-3 sm:mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-heart-pulse text-red-400"></i>
-                شاخص‌های تخصصی پزشکی و سلامت جوی:
-            </h3>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-center">
-                <template x-for="h in weatherData?.healthIndexes" :key="h.title">
-                    <div class="p-3 sm:p-3.5 rounded-2xl bg-slate-800/40 border border-[var(--card-border)] flex flex-col items-center gap-1.5 sm:gap-2 group hover:bg-[var(--search-bg)] transition-all">
-                        <i :class="h.icon" class="text-lg sm:text-xl transition-transform duration-300 group-hover:scale-125"></i>
-                        <span class="text-[10px] sm:text-[11px] font-bold text-slate-300" x-text="h.title"></span>
-                        <span class="text-[9px] sm:text-[10px] px-2 sm:px-2.5 py-0.5 rounded-full font-black border" :class="h.badgeBg" x-text="h.status"></span>
-                    </div>
-                </template>
-            </div>
-        </div>
-
-        <!-- کارت پیشنهاد پوشش و لباس متناسب با هوا -->
-        <div x-show="!loading && weatherData" x-cloak class="bento-card p-4 sm:p-6">
-            <h3 class="text-xs font-extrabold text-slate-300 mb-3 flex items-center gap-2">
-                <i class="fa-solid fa-shirt text-blue-400"></i>
-                راهنمای پوشش و لباس پیشنهادی امروز:
-            </h3>
-            <div class="flex flex-wrap gap-2 sm:gap-2.5">
-                <template x-for="item in weatherData?.clothing" :key="item.name">
-                    <div class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-2xl bg-slate-800/50 border border-[var(--card-border)] flex items-center gap-1.5 sm:gap-2 text-xs font-bold text-slate-200">
-                        <i :class="item.icon" class="text-xs sm:text-sm"></i>
-                        <span x-text="item.name"></span>
-                    </div>
-                </template>
-            </div>
-        </div>
-
-        <!-- کارت شاخص هوشمند فعالیت‌های فضای باز -->
-        <div x-show="!loading && weatherData" x-cloak class="bento-card p-4 sm:p-6">
-            <h3 class="text-xs font-extrabold text-slate-300 mb-3 sm:mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-person-running text-blue-400"></i>
-                شاخص مناسب بودن فعالیت‌های فضای باز:
-            </h3>
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
-                <template x-for="act in weatherData?.activities" :key="act.title">
-                    <div class="p-3 sm:p-3.5 rounded-2xl bg-slate-800/40 border border-[var(--card-border)] flex flex-col items-center gap-1.5 sm:gap-2 text-center group hover:bg-[var(--search-bg)] transition-all">
-                        <i :class="act.icon" class="text-lg sm:text-xl transition-transform duration-300 group-hover:scale-125"></i>
-                        <span class="text-[10px] sm:text-[11px] font-bold text-slate-300" x-text="act.title"></span>
-                        <span class="text-[9px] sm:text-[10px] px-2 sm:px-2.5 py-0.5 rounded-full font-black border" :class="act.badgeBg" x-text="act.status"></span>
-                    </div>
-                </template>
-            </div>
+            <svg class="svg-icon absolute -bottom-16 -left-16 w-56 h-56 sm:w-72 sm:h-72 opacity-[0.04] rotate-12 transition-all duration-1000 ease-out group-hover:scale-110 pointer-events-none" :class="getIconSymbolId(weatherData?.statusIcon)"><use :href="'#' + getIconSymbolId(weatherData?.statusIcon)"></use></svg>
         </div>
 
         <!-- پیش‌بینی پیشرفته ۲۴ ساعت آینده -->
         <div class="bento-card p-4 sm:p-6 md:p-8 relative">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 mb-5 sm:mb-6">
-                <div>
-                    <h3 class="text-sm sm:text-base font-bold text-slate-200 flex items-center gap-2.5 sm:gap-3">
-                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
-                            <i class="fa-solid fa-clock-rotate-left text-xs sm:text-sm"></i>
-                        </div>
-                        پیش‌بینی ۲۴ ساعت آینده
-                    </h3>
-                    <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1">روی هر ساعت کلیک کنید تا جزییات کامل آن نمایش داده شود.</p>
+                <div class="flex items-center justify-between w-full md:w-auto">
+                    <div>
+                        <h3 class="text-sm sm:text-base font-bold text-slate-200 flex items-center gap-2.5 sm:gap-3">
+                            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
+                                <svg class="svg-icon fa-clock-rotate-left text-xs sm:text-sm w-4 h-4"><use href="#icon-arrows-rotate"></use></svg>
+                            </div>
+                            پیش‌بینی ۲۴ ساعت آینده
+                        </h3>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1">روی هر ساعت کلیک کنید تا جزییات کامل آن نمایش داده شود.</p>
+                    </div>
                 </div>
 
                 <div class="flex items-center gap-1 sm:gap-1.5 bg-slate-900/60 p-1 rounded-2xl border border-[var(--card-border)] flex-wrap">
                     <button @click="hourlyTab = 'temp'; vibrate(15)" :class="hourlyTab === 'temp' ? 'bg-blue-600 text-white  shadow-md' : 'text-slate-400 hover:'" class="px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center gap-1 flex-shrink-0">
-                        <i class="fa-solid fa-temperature-half text-[10px] sm:text-xs"></i>
+                        <svg class="svg-icon fa-temperature-half text-[10px] sm:text-xs w-3 h-3"><use href="#icon-temperature-half"></use></svg>
                         <span>دما</span>
                     </button>
                     <button @click="hourlyTab = 'precip'; vibrate(15)" :class="hourlyTab === 'precip' ? 'bg-blue-600 text-white  shadow-md' : 'text-slate-400 hover:'" class="px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center gap-1 flex-shrink-0">
-                        <i class="fa-solid fa-droplet text-[10px] sm:text-xs"></i>
+                        <svg class="svg-icon fa-droplet text-[10px] sm:text-xs w-3 h-3"><use href="#icon-droplet"></use></svg>
                         <span>بارش</span>
                     </button>
                     <button @click="hourlyTab = 'wind'; vibrate(15)" :class="hourlyTab === 'wind' ? 'bg-blue-600 text-white  shadow-md' : 'text-slate-400 hover:'" class="px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center gap-1 flex-shrink-0">
-                        <i class="fa-solid fa-wind text-[10px] sm:text-xs"></i>
+                        <svg class="svg-icon fa-wind text-[10px] sm:text-xs w-3 h-3"><use href="#icon-wind"></use></svg>
                         <span>باد</span>
                     </button>
                     <button @click="hourlyTab = 'humidity'; vibrate(15)" :class="hourlyTab === 'humidity' ? 'bg-blue-600 text-white  shadow-md' : 'text-slate-400 hover:'" class="px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center gap-1 flex-shrink-0">
-                        <i class="fa-solid fa-water text-[10px] sm:text-xs"></i>
+                        <svg class="svg-icon fa-water text-[10px] sm:text-xs w-3 h-3"><use href="#icon-water"></use></svg>
                         <span>رطوبت</span>
                     </button>
                 </div>
@@ -836,7 +858,8 @@
 
             <div x-show="!loading && weatherData" x-cloak x-ref="hourlyContainer" 
                  @mousedown="startDragging" @mouseup="stopDragging" @mouseleave="stopDragging"
-                 class="hourly-container flex overflow-x-auto gap-3 sm:gap-3.5 pb-4 hide-scrollbar">
+                 @touchstart="startTouchDragging" @touchend="stopDragging"
+                 class="hourly-container flex overflow-x-auto gap-3 sm:gap-3.5 pb-4 hide-scrollbar cursor-grab active:cursor-grabbing">
                 
                 <template x-for="hour in weatherData?.hourly" :key="hour.timestamp">
                     <div @click="selectedHour = hour; vibrate(20)" 
@@ -853,7 +876,7 @@
                         <div class="flex flex-col items-center justify-center my-auto gap-1">
                             <template x-if="hourlyTab === 'temp'">
                                 <div class="flex flex-col items-center gap-1">
-                                    <i :class="hour.icon" class="text-2xl sm:text-3xl my-0.5 transition-transform duration-500 group-hover:scale-125"></i>
+                                    <svg class="svg-icon text-2xl sm:text-3xl my-0.5 transition-transform duration-500 group-hover:scale-125 w-7 h-7" :class="getIconSymbolId(hour.icon)"><use :href="'#' + getIconSymbolId(hour.icon)"></use></svg>
                                     <span class="font-black text-lg sm:text-xl " x-text="formatTemp(hour.temp) + '°'"></span>
                                     <span class="text-[9px] sm:text-[10px] text-slate-400 font-medium truncate max-w-[90px] sm:max-w-[100px]" x-text="hour.statusText"></span>
                                 </div>
@@ -861,7 +884,7 @@
 
                             <template x-if="hourlyTab === 'precip'">
                                 <div class="flex flex-col items-center gap-1">
-                                    <i class="fa-solid fa-droplet text-xl sm:text-2xl text-cyan-400 my-1"></i>
+                                    <svg class="svg-icon fa-droplet text-xl sm:text-2xl text-cyan-400 my-1 w-6 h-6"><use href="#icon-droplet"></use></svg>
                                     <span class="font-black text-base sm:text-lg text-cyan-300" x-text="toFarsi(hour.precip) + '%'"></span>
                                     <span class="text-[9px] sm:text-[10px] text-slate-400 font-bold" x-text="toFarsi(hour.precipMm) + ' mm'"></span>
                                 </div>
@@ -870,7 +893,7 @@
                             <template x-if="hourlyTab === 'wind'">
                                 <div class="flex flex-col items-center gap-1">
                                     <div class="w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center my-0.5">
-                                        <i class="fa-solid fa-location-arrow text-indigo-400 text-sm transition-transform duration-500" :style="`transform: rotate(${(hour.windDirDeg || 0) - 45}deg)`"></i>
+                                        <svg class="svg-icon fa-location-arrow text-indigo-400 text-sm transition-transform duration-500 w-4 h-4" :style="`transform: rotate(${(hour.windDirDeg || 0) - 45}deg)`"><use href="#icon-location-arrow"></use></svg>
                                     </div>
                                     <span class="font-black text-xs sm:text-sm text-[var(--text-main)]" x-text="toFarsi(hour.wind) + ' km/h'"></span>
                                     <span class="text-[9px] sm:text-[10px] text-indigo-300 font-bold" x-text="hour.windDirText"></span>
@@ -879,7 +902,7 @@
 
                             <template x-if="hourlyTab === 'humidity'">
                                 <div class="flex flex-col items-center gap-1">
-                                    <i class="fa-solid fa-water text-xl sm:text-2xl text-blue-400 my-1"></i>
+                                    <svg class="svg-icon fa-water text-xl sm:text-2xl text-blue-400 my-1 w-6 h-6"><use href="#icon-water"></use></svg>
                                     <span class="font-black text-base sm:text-lg text-blue-300" x-text="toFarsi(hour.humidity) + '%'"></span>
                                     <span class="text-[9px] sm:text-[10px] text-slate-400 font-medium">رطوبت</span>
                                 </div>
@@ -897,186 +920,12 @@
             </div>
         </div>
 
-        <!-- شبکه جزئیات Bento Grid -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-3 sm:gap-4">
-            <template x-if="loading">
-                <template x-for="i in 15">
-                    <div class="bento-card p-4 sm:p-5 flex flex-col items-center justify-center gap-2 h-[130px] shimmer"></div>
-                </template>
-            </template>
-
-            <template x-if="!loading && weatherData">
-                <div class="contents">
-                    <!-- گروه ۱: دما و آسایش حرارتی -->
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-red-500/15 border border-red-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-temperature-half text-red-400 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">دما محسوس و آسایش</p>
-                        <p class="font-black text-base sm:text-lg " x-text="formatTemp(weatherData.feelsLike) + '°'"></p>
-                        <span class="text-[9px] sm:text-[10px] font-bold" :class="weatherData.comfortIndex?.color" x-text="weatherData.comfortIndex?.text"></span>
-                    </div>
-
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-orange-500/15 border border-orange-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-fire-flame-curved text-orange-400 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">استرس حرارتی (WBGT)</p>
-                        <p class="font-black text-base sm:text-lg " x-text="weatherData.wbgt?.val !== null ? toFarsi(weatherData.wbgt.val) + '°C' : '--'"></p>
-                        <span class="text-[8px] sm:text-[9px] font-bold" :class="weatherData.wbgt?.color" x-text="weatherData.wbgt?.text"></span>
-                    </div>
-                    
-                    <!-- گروه ۲: هوا، باد و فشار جو -->
-                    <div class="bento-card p-3.5 sm:p-4 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-leaf text-lg transition-transform duration-500 drop-shadow-md" :class="weatherData.aqiColor"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">کیفیت هوا (AQI)</p>
-                        <div class="flex flex-col items-center gap-1 sm:gap-1.5 w-full">
-                            <span class="font-black text-xl sm:text-2xl  leading-none" x-text="weatherData.aqi !== null ? toFarsi(weatherData.aqi) : '--'"></span>
-                            <span class="text-[9px] sm:text-[10px] px-2 sm:px-2.5 py-0.5 rounded-full font-extrabold border backdrop-blur-md transition-all whitespace-nowrap shadow-sm" 
-                                  :class="weatherData.aqiBadgeBg" 
-                                  x-text="weatherData.aqiText">
-                            </span>
-                            
-                            <div x-show="weatherData.aqi !== null" class="w-full bg-gradient-to-r from-emerald-400 via-yellow-400 via-orange-500 to-purple-600 h-1.5 rounded-full mt-1 relative overflow-hidden">
-                                <div class="absolute top-0 h-full bg-white w-2 rounded-full shadow-[0_0_8px_white]" :style="`right: ${Math.min(100, Math.max(0, ((weatherData?.aqi || 0) / 150) * 100))}%`"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div @click="showWindModal = true; vibrate(20)" class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center hover:border-indigo-500/50 transition-all">
-                        <div class="w-10 h-10 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-location-arrow text-indigo-400 text-lg transition-transform duration-700 drop-shadow-md" :style="`transform: rotate(${weatherData.windDirDeg - 45}deg)`"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">سرعت و جهت باد</p>
-                        <div class="flex flex-col items-center gap-0.5">
-                            <div class="flex items-center gap-1">
-                                <span class="font-black text-sm sm:text-base text-[var(--text-main)]" x-text="toFarsi(weatherData.wind) + ' km/h'"></span>
-                                <span class="text-[9px] text-slate-400 font-bold" x-text="'(' + toFarsi(weatherData.windMs) + ' m/s)'"></span>
-                            </div>
-                            <span class="text-[9px] sm:text-[10px] text-indigo-300 font-bold flex items-center gap-1" x-text="weatherData.windDirText + ' (' + toFarsi(weatherData.windDirDeg) + '°)'"></span>
-                            <span class="text-[8px] px-2 py-0.5 rounded-md font-extrabold mt-1 border" :class="weatherData.windBeaufort.badgeBg + ' ' + weatherData.windBeaufort.color" x-text="weatherData.windBeaufort.name"></span>
-                        </div>
-                    </div>
-
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-gauge-high text-emerald-400 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">فشار و روند جو</p>
-                        <p class="font-black text-sm sm:text-base " x-text="toFarsi(weatherData.pressure) + ' hPa'"></p>
-                        <span class="text-[8px] sm:text-[9px] font-bold text-slate-300 truncate max-w-full flex items-center justify-center gap-1">
-                            <i :class="weatherData.pressureTrend?.icon" class="text-[9px] sm:text-[10px]"></i>
-                            <span x-text="weatherData.pressureTrend?.text"></span>
-                        </span>
-                    </div>
-
-                    <!-- گروه ۳: رطوبت و آب -->
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-droplet text-blue-400 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">رطوبت و نقطه شبنم</p>
-                        <p class="font-black text-base sm:text-lg " x-text="toFarsi(weatherData.humidity) + '%'"></p>
-                        <span x-show="weatherData.dewPoint !== null" class="text-[9px] sm:text-[10px] text-blue-300 font-bold" x-text="'شبنم: ' + formatTemp(weatherData.dewPoint) + '°'"></span>
-                    </div>
-
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-teal-500/15 border border-teal-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-wind text-teal-400 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">فشار بخار آب (VPD)</p>
-                        <p class="font-black text-base sm:text-lg " x-text="weatherData.vpd?.val !== null ? toFarsi(weatherData.vpd.val) + ' kPa' : '--'"></p>
-                        <span class="text-[8px] sm:text-[9px] font-bold" :class="weatherData.vpd?.color" x-text="weatherData.vpd?.text"></span>
-                    </div>
-
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-bottle-water text-cyan-400 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">آبرسانی و نوشیدن آب</p>
-                        <p class="font-black text-base sm:text-lg text-cyan-300" x-text="weatherData.hydrationNeeds ? toFarsi(weatherData.hydrationNeeds) + ' ml/h' : '--'"></p>
-                        <span class="text-[8px] sm:text-[9px] text-cyan-200/90 font-bold">مصرف آب فضای باز</span>
-                    </div>
-
-                    <!-- گروه ۴: خورشید (طلوع و غروب کنار هم)، UV و ماه -->
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-mountain-sun text-amber-300 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">طلوع خورشید</p>
-                        <p class="font-black text-base sm:text-lg " x-text="toFarsi(weatherData.sunrise)"></p>
-                        <span class="text-[8px] sm:text-[9px] text-amber-300/80 font-bold" x-text="weatherData.dayDetails?.lengthText ? 'طول روز: ' + weatherData.dayDetails.lengthText : ''"></span>
-                    </div>
-
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-cloud-moon text-indigo-400 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">غروب خورشید</p>
-                        <p class="font-black text-base sm:text-lg " x-text="toFarsi(weatherData.sunset)"></p>
-                        <span class="text-[8px] sm:text-[9px] text-indigo-300/90 font-bold" x-text="weatherData.dayDetails?.remainingText"></span>
-                    </div>
-
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-sun text-amber-400 text-lg transition-transform duration-500 group-hover:rotate-45 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">شاخص UV</p>
-                        <p class="font-black text-base sm:text-lg " x-text="toFarsi(weatherData.uv)"></p>
-                        <span class="text-[8px] sm:text-[9px] text-amber-300 font-bold truncate max-w-full" x-text="weatherData.safeSunExposure"></span>
-                    </div>
-
-                    <div @click="showMoonModal = true; vibrate(20)" class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center hover:border-amber-500/50 transition-all">
-                        <div class="w-10 h-10 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i :class="weatherData.moonPhase?.icon" class="text-xl transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">وضعیت ماه امشب</p>
-                        <div class="flex flex-col items-center gap-0.5">
-                            <p class="font-black text-xs sm:text-sm text-amber-200" x-text="weatherData.moonPhase?.text"></p>
-                            <span class="text-[9px] text-slate-400 font-bold" x-text="'نور: ' + weatherData.moonPhase?.illumination + '%'"></span>
-                        </div>
-                    </div>
-
-                    <!-- گروه ۵: دید، ابر و اتمسفر -->
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-regular fa-eye text-cyan-400 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">میدان دید افقی</p>
-                        <p class="font-black text-base sm:text-lg " x-text="toFarsi(weatherData.visibility) + ' km'"></p>
-                    </div>
-
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-cyan-500/15 border border-cyan-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-cloud-arrow-up text-cyan-300 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">ارتفاع پایه ابر (LCL)</p>
-                        <p class="font-black text-base sm:text-lg " x-text="weatherData.cloudBase !== null ? toFarsi(weatherData.cloudBase) + ' m' : '--'"></p>
-                        <span class="text-[8px] sm:text-[9px] text-cyan-300/90 font-bold">از سطح زمین</span>
-                    </div>
-
-                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
-                        <div class="w-10 h-10 rounded-2xl bg-purple-500/15 border border-purple-500/30 flex items-center justify-center relative shadow-sm group-hover:scale-110 transition-transform duration-500">
-                            <i class="fa-solid fa-atom text-purple-400 text-lg transition-transform duration-500 drop-shadow-md"></i>
-                        </div>
-                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">چگالی اتمسفر و تبخیر</p>
-                        <p class="font-black text-sm sm:text-base " x-text="toFarsi(weatherData.airDensity) + ' kg/m³'"></p>
-                        <span class="text-[8px] sm:text-[9px] text-purple-300/90 font-bold" x-text="'تبخیر خاک: ' + toFarsi(weatherData.evapotranspiration) + ' mm/d'"></span>
-                    </div>
-                </div>
-            </template>
-        </div>
-    </div>
-
-    <!-- پیش‌بینی پیشرفته ۷ روز آینده -->
-    <div class="flex flex-col gap-6">
-        <div class="bento-card p-4 sm:p-6 md:p-8 h-full flex flex-col group/forecast">
+        <!-- پیش‌بینی پیشرفته ۷ روز آینده -->
+        <div class="bento-card p-4 sm:p-6 md:p-8 flex flex-col group/forecast">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-base font-bold text-slate-200 flex items-center gap-3">
                     <div class="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 transition-transform duration-300 group-hover/forecast:scale-110">
-                        <i class="fa-solid fa-calendar-days"></i>
+                        <svg class="svg-icon w-4 h-4"><use href="#icon-calendar-days"></use></svg>
                     </div>
                     پیش‌بینی ۷ روز آینده
                 </h3>
@@ -1093,12 +942,12 @@
             <div x-show="!loading && weatherData" x-cloak class="flex flex-col gap-3.5 flex-1">
                 <template x-for="(day, index) in weatherData?.forecast" :key="day.dateStr">
                     <div @click="expandedDay = (expandedDay === day.id ? null : day.id); vibrate(15)" 
-                         class="p-4 flex flex-col gap-3 cursor-pointer group bg-[var(--search-bg)] hover:bg-[var(--card-bg-hover)] border border-[var(--card-border)] hover:border-[var(--card-border-hover)] transition-all duration-300 rounded-2xl shadow-sm relative overflow-hidden">
+                          class="p-4 flex flex-col gap-3 cursor-pointer group bg-[var(--search-bg)] hover:bg-[var(--card-bg-hover)] border border-[var(--card-border)] hover:border-[var(--card-border-hover)] transition-all duration-300 rounded-2xl shadow-sm relative overflow-hidden">
                         
                         <div class="flex items-center justify-between gap-2 relative z-10">
                             <div class="flex items-center gap-3 min-w-0">
                                 <div class="w-11 h-11 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border-top)] shadow-sm flex items-center justify-center group-hover:bg-blue-500/10 transition-colors flex-shrink-0 relative">
-                                    <i :class="day.icon" class="text-xl transition-transform duration-300 group-hover:scale-110"></i>
+                                    <svg class="svg-icon text-xl transition-transform duration-300 group-hover:scale-110 w-5 h-5" :class="getIconSymbolId(day.icon)"><use :href="'#' + getIconSymbolId(day.icon)"></use></svg>
                                     <template x-if="day.precip > 15">
                                         <span class="absolute -bottom-1.5 -right-1.5 bg-cyan-500 text-slate-950 font-black text-[9px] px-1.5 py-0.5 rounded-full border border-slate-900 shadow-sm" x-text="toFarsi(day.precip) + '%'"></span>
                                     </template>
@@ -1113,22 +962,21 @@
                             </div>
 
                             <div class="flex flex-col items-end justify-between h-full gap-2 flex-shrink-0">
-                                <i :class="expandedDay === day.id ? 'rotate-180 text-blue-400' : 'text-[var(--text-muted)]'" 
-                                   class="fa-solid fa-chevron-down text-sm transition-transform duration-300"></i>
+                                <svg class="svg-icon text-sm transition-transform duration-300 w-4 h-4" :class="expandedDay === day.id ? 'rotate-180 text-blue-400' : 'text-[var(--text-muted)]'"><use href="#icon-chevron-down"></use></svg>
                                 <div class="flex items-center gap-1.5">
                                     <template x-if="day.badgeType === 'extreme_swing'">
                                         <span class="text-[9px] bg-purple-500/20 text-purple-400 border border-purple-500/30 px-1.5 py-0.5 rounded flex items-center gap-1">
-                                            <i class="fa-solid fa-bolt text-[8px]"></i> نوسان
+                                            <svg class="svg-icon text-[8px] w-3 h-3"><use href="#icon-bolt"></use></svg> نوسان
                                         </span>
                                     </template>
                                     <template x-if="day.badgeType === 'hottest'">
                                         <span class="text-[9px] bg-amber-500/20 text-amber-400 border border-amber-500/30 px-1.5 py-0.5 rounded flex items-center gap-1">
-                                            <i class="fa-solid fa-fire text-[8px]"></i> گرم‌ترین
+                                            <svg class="svg-icon text-[8px] w-3 h-3"><use href="#icon-fire"></use></svg> گرم‌ترین
                                         </span>
                                     </template>
                                     <template x-if="day.badgeType === 'coldest'">
                                         <span class="text-[9px] bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 px-1.5 py-0.5 rounded flex items-center gap-1">
-                                            <i class="fa-solid fa-snowflake text-[8px]"></i> سردترین
+                                            <svg class="svg-icon text-[8px] w-3 h-3"><use href="#icon-snowflake"></use></svg> سردترین
                                         </span>
                                     </template>
                                 </div>
@@ -1151,28 +999,28 @@
                              x-transition:enter-start="opacity-0 -translate-y-4 scale-95"
                              x-transition:enter-end="opacity-100 translate-y-0 scale-100"
                              x-cloak
-                             class="pt-3 mt-1 grid grid-cols-2 gap-2.5 text-center text-xs relative z-10">
+                             class="pt-3 mt-1 grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs relative z-10">
                             
                             <div class="bg-[var(--dropdown-bg)] border border-[var(--dropdown-border)] p-3 rounded-xl shadow-inner">
-                                <span class="text-[10px] text-[var(--text-muted)] block mb-1 font-bold"><i class="fa-solid fa-droplet text-cyan-400 ml-1"></i>بارش</span>
+                                <span class="text-[10px] text-[var(--text-muted)] block mb-1 font-bold flex items-center justify-center gap-1"><svg class="svg-icon text-cyan-400 w-3.5 h-3.5"><use href="#icon-droplet"></use></svg>بارش</span>
                                 <span class="font-black text-[var(--text-main)]" x-text="toFarsi(day.precip) + '%' + (day.precipSum > 0 ? ' (' + toFarsi(day.precipSum) + ' mm)' : '')"></span>
                             </div>
 
                             <div class="bg-[var(--dropdown-bg)] border border-[var(--dropdown-border)] p-3 rounded-xl shadow-inner">
-                                <span class="text-[10px] text-[var(--text-muted)] block mb-1 font-bold"><i class="fa-solid fa-wind text-indigo-400 ml-1"></i>تندباد</span>
+                                <span class="text-[10px] text-[var(--text-muted)] block mb-1 font-bold flex items-center justify-center gap-1"><svg class="svg-icon text-indigo-400 w-3.5 h-3.5"><use href="#icon-wind"></use></svg>تندباد</span>
                                 <span class="font-black text-[var(--text-main)]" x-text="toFarsi(day.windMax) + ' km/h'"></span>
                             </div>
 
                             <div class="bg-[var(--dropdown-bg)] border border-[var(--dropdown-border)] p-3 rounded-xl shadow-inner">
-                                <span class="text-[10px] text-[var(--text-muted)] block mb-1 font-bold"><i class="fa-solid fa-sun text-amber-400 ml-1"></i>شاخص UV</span>
+                                <span class="text-[10px] text-[var(--text-muted)] block mb-1 font-bold flex items-center justify-center gap-1"><svg class="svg-icon text-amber-400 w-3.5 h-3.5"><use href="#icon-sun"></use></svg>شاخص UV</span>
                                 <span class="font-black text-[var(--text-main)]" x-text="toFarsi(day.uvMax)"></span>
                             </div>
 
                             <div class="bg-[var(--dropdown-bg)] border border-[var(--dropdown-border)] p-3 rounded-xl shadow-inner">
-                                <span class="text-[10px] text-[var(--text-muted)] block mb-1 font-bold"><i class="fa-solid fa-mountain-sun text-amber-300 ml-1"></i>طلوع / غروب</span>
+                                <span class="text-[10px] text-[var(--text-muted)] block mb-1 font-bold flex items-center justify-center gap-1"><svg class="svg-icon text-amber-300 w-3.5 h-3.5"><use href="#icon-mountain-sun"></use></svg>طلوع / غروب</span>
                                 <div class="flex items-center justify-center gap-1.5 text-[10px] font-black text-[var(--text-main)]" dir="ltr">
                                     <span x-text="day.sunrise"></span>
-                                    <i class="fa-solid fa-arrow-right text-[8px] text-[var(--text-muted)]"></i>
+                                    <svg class="svg-icon text-[8px] text-[var(--text-muted)] w-2.5 h-2.5"><use href="#icon-arrow-right"></use></svg>
                                     <span x-text="day.sunset"></span>
                                 </div>
                             </div>
@@ -1180,8 +1028,333 @@
                     </div>
                 </template>
             </div>
+        </div>
+
+        <!-- شبکه جزئیات Bento Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-3 sm:gap-4">
+            <template x-if="loading">
+                <template x-for="i in 15">
+                    <div class="bento-card p-4 sm:p-5 flex flex-col items-center justify-center gap-2 h-[130px] shimmer"></div>
+                </template>
+            </template>
+
+            <template x-if="!loading && weatherData">
+                <div class="contents">
+                    <!-- گروه ۱: دما و آسایش حرارتی -->
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-red-500 dark:text-red-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-temperature-half"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">دما محسوس و آسایش</p>
+                        <p class="font-black text-base sm:text-lg " x-text="formatTemp(weatherData.feelsLike) + '°'"></p>
+                        <span class="text-[9px] sm:text-[10px] font-bold" :class="weatherData.comfortIndex?.color" x-text="weatherData.comfortIndex?.text"></span>
+                    </div>
+
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-orange-500 dark:text-orange-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-fire-flame-curved"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">استرس حرارتی (WBGT)</p>
+                        <p class="font-black text-base sm:text-lg " x-text="weatherData.wbgt?.val !== null ? toFarsi(weatherData.wbgt.val) + '°C' : '--'"></p>
+                        <span class="text-[8px] sm:text-[9px] font-bold" :class="weatherData.wbgt?.color" x-text="weatherData.wbgt?.text"></span>
+                    </div>
+                    
+                    <!-- گروه ۲: هوا، باد و فشار جو -->
+                    <div class="bento-card p-3.5 sm:p-4 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm" :class="weatherData.aqiColor"><use href="#icon-leaf"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">کیفیت هوا (AQI)</p>
+                        <div class="flex flex-col items-center gap-1 sm:gap-1.5 w-full">
+                            <span class="font-black text-xl sm:text-2xl  leading-none" x-text="weatherData.aqi !== null ? toFarsi(weatherData.aqi) : '--'"></span>
+                            <span class="text-[9px] sm:text-[10px] px-2 sm:px-2.5 py-0.5 rounded-full font-extrabold border backdrop-blur-md transition-all whitespace-nowrap shadow-sm" 
+                                  :class="weatherData.aqiBadgeBg" 
+                                  x-text="weatherData.aqiText">
+                            </span>
+                            
+                            <div x-show="weatherData.aqi !== null" class="w-full bg-gradient-to-r from-emerald-400 via-yellow-400 via-orange-500 to-purple-600 h-1.5 rounded-full mt-1 relative overflow-hidden">
+                                <div class="absolute top-0 h-full bg-white w-2 rounded-full shadow-[0_0_8px_white]" :style="`right: ${Math.min(100, Math.max(0, ((weatherData?.aqi || 0) / 150) * 100))}%`"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div @click="showWindModal = true; vibrate(20)" class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center hover:border-indigo-500/50 transition-all">
+                        <svg class="svg-icon text-indigo-500 dark:text-indigo-400 w-6 h-6 mb-1 transition-transform duration-700 group-hover:scale-110 drop-shadow-sm" :style="`transform: rotate(${weatherData.windDirDeg - 45}deg)`"><use href="#icon-location-arrow"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">سرعت و جهت باد</p>
+                        <div class="flex flex-col items-center gap-0.5">
+                            <div class="flex items-center gap-1">
+                                <span class="font-black text-sm sm:text-base text-[var(--text-main)]" x-text="toFarsi(weatherData.wind) + ' km/h'"></span>
+                                <span class="text-[9px] text-slate-400 font-bold" x-text="'(' + toFarsi(weatherData.windMs) + ' m/s)'"></span>
+                            </div>
+                            <span class="text-[9px] sm:text-[10px] text-indigo-300 font-bold flex items-center gap-1" x-text="weatherData.windDirText + ' (' + toFarsi(weatherData.windDirDeg) + '°)'"></span>
+                            <span class="text-[8px] px-2 py-0.5 rounded-md font-extrabold mt-1 border" :class="weatherData.windBeaufort.badgeBg + ' ' + weatherData.windBeaufort.color" x-text="weatherData.windBeaufort.name"></span>
+                        </div>
+                    </div>
+
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-emerald-500 dark:text-emerald-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-gauge-high"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">فشار و روند جو</p>
+                        <p class="font-black text-sm sm:text-base " x-text="toFarsi(weatherData.pressure) + ' hPa'"></p>
+                        <span class="text-[8px] sm:text-[9px] font-bold text-slate-300 truncate max-w-full flex items-center justify-center gap-1">
+                            <svg class="svg-icon text-[9px] sm:text-[10px] w-3 h-3" :class="getIconSymbolId(weatherData.pressureTrend?.icon)"><use :href="'#' + getIconSymbolId(weatherData.pressureTrend?.icon)"></use></svg>
+                            <span x-text="weatherData.pressureTrend?.text"></span>
+                        </span>
+                    </div>
+
+                    <!-- گروه ۳: رطوبت و آب -->
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-blue-500 dark:text-blue-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-droplet"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">رطوبت و نقطه شبنم</p>
+                        <p class="font-black text-base sm:text-lg " x-text="toFarsi(weatherData.humidity) + '%'"></p>
+                        <span x-show="weatherData.dewPoint !== null" class="text-[9px] sm:text-[10px] text-blue-300 font-bold" x-text="'شبنم: ' + formatTemp(weatherData.dewPoint) + '°'"></span>
+                    </div>
+
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-teal-500 dark:text-teal-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-wind"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">فشار بخار آب (VPD)</p>
+                        <p class="font-black text-base sm:text-lg " x-text="weatherData.vpd?.val !== null ? toFarsi(weatherData.vpd.val) + ' kPa' : '--'"></p>
+                        <span class="text-[8px] sm:text-[9px] font-bold" :class="weatherData.vpd?.color" x-text="weatherData.vpd?.text"></span>
+                    </div>
+
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-cyan-500 dark:text-cyan-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-bottle-water"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">آبرسانی و نوشیدن آب</p>
+                        <p class="font-black text-base sm:text-lg text-cyan-300" x-text="weatherData.hydrationNeeds ? toFarsi(weatherData.hydrationNeeds) + ' ml/h' : '--'"></p>
+                        <span class="text-[8px] sm:text-[9px] text-cyan-200/90 font-bold">مصرف آب فضای باز</span>
+                    </div>
+
+                    <!-- گروه ۴: خورشید (طلوع و غروب کنار هم)، UV و ماه -->
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-amber-500 dark:text-amber-300 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-mountain-sun"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">طلوع خورشید</p>
+                        <p class="font-black text-base sm:text-lg " x-text="toFarsi(weatherData.sunrise)"></p>
+                        <span class="text-[8px] sm:text-[9px] text-amber-300/80 font-bold" x-text="weatherData.dayDetails?.lengthText ? 'طول روز: ' + weatherData.dayDetails.lengthText : ''"></span>
+                    </div>
+
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-indigo-500 dark:text-indigo-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-cloud-moon"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">غروب خورشید</p>
+                        <p class="font-black text-base sm:text-lg " x-text="toFarsi(weatherData.sunset)"></p>
+                        <span class="text-[8px] sm:text-[9px] text-indigo-300/90 font-bold" x-text="weatherData.dayDetails?.remainingText"></span>
+                    </div>
+
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-amber-500 dark:text-amber-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:rotate-45 drop-shadow-sm"><use href="#icon-sun"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">شاخص UV</p>
+                        <p class="font-black text-base sm:text-lg " x-text="toFarsi(weatherData.uv)"></p>
+                        <span class="text-[8px] sm:text-[9px] text-amber-300 font-bold truncate max-w-full" x-text="weatherData.safeSunExposure"></span>
+                    </div>
+
+                    <div @click="showMoonModal = true; vibrate(20)" class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center hover:border-amber-500/50 transition-all">
+                        <svg class="svg-icon text-amber-600 dark:text-amber-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm" :class="getIconSymbolId(weatherData.moonPhase?.icon)"><use :href="'#' + getIconSymbolId(weatherData.moonPhase?.icon)"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">وضعیت ماه امشب</p>
+                        <div class="flex flex-col items-center gap-0.5">
+                            <p class="font-black text-xs sm:text-sm text-amber-200" x-text="weatherData.moonPhase?.text"></p>
+                            <span class="text-[9px] text-slate-400 font-bold" x-text="'نور: ' + weatherData.moonPhase?.illumination + '%'"></span>
+                        </div>
+                    </div>
+
+                    <!-- گروه ۵: دید، ابر و اتمسفر -->
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-cyan-500 dark:text-cyan-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-eye"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">میدان دید افقی</p>
+                        <p class="font-black text-base sm:text-lg " x-text="toFarsi(weatherData.visibility) + ' km'"></p>
+                    </div>
+
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-cyan-500 dark:text-cyan-300 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-cloud-arrow-up"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">ارتفاع پایه ابر (LCL)</p>
+                        <p class="font-black text-base sm:text-lg " x-text="weatherData.cloudBase !== null ? toFarsi(weatherData.cloudBase) + ' m' : '--'"></p>
+                        <span class="text-[8px] sm:text-[9px] text-cyan-300/90 font-bold">از سطح زمین</span>
+                    </div>
+
+                    <div class="bento-card p-3.5 sm:p-5 flex flex-col items-center justify-center gap-1.5 sm:gap-2 group cursor-pointer relative overflow-hidden text-center">
+                        <svg class="svg-icon text-purple-500 dark:text-purple-400 w-6 h-6 mb-1 transition-transform duration-500 group-hover:scale-110 drop-shadow-sm"><use href="#icon-atom"></use></svg>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 font-medium">چگالی اتمسفر و تبخیر</p>
+                        <p class="font-black text-sm sm:text-base " x-text="toFarsi(weatherData.airDensity) + ' kg/m³'"></p>
+                        <span class="text-[8px] sm:text-[9px] text-purple-300/90 font-bold" x-text="'تبخیر خاک: ' + toFarsi(weatherData.evapotranspiration) + ' mm/d'"></span>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- کارت‌های سبک زندگی روزانه در سایدبار (شاخص‌های پزشکی، پوشش و لباس، فعالیت‌ها) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-5 lg:gap-6 lg:sticky lg:top-6 self-start">
+        <!-- کارت شاخص‌های پزشکی و سلامت جوی -->
+        <div x-show="!loading && weatherData" x-cloak class="bento-card p-3.5 sm:p-5 transition-all duration-300 md:col-span-2 lg:col-span-1">
+            <!-- سربرگ اصلی کارت -->
+            <div class="flex flex-col gap-2.5 pb-3 mb-3.5 border-b border-[var(--card-border-top)]">
+                <div class="flex items-center gap-2.5 w-full">
+                    <svg class="svg-icon text-red-500 dark:text-red-400 w-5 h-5 flex-shrink-0"><use href="#icon-heart-pulse"></use></svg>
+                    <h3 class="text-xs sm:text-sm font-black text-[var(--text-main)] leading-snug">
+                        شاخص‌های تخصصی پزشکی و سلامت جوی
+                    </h3>
+                </div>
+                <div class="flex items-center justify-between text-[10px] gap-2 pt-0.5">
+                    <span class="font-extrabold text-[var(--text-muted)] truncate">پایش بیوکلیماتیک و هشدارهای زیستی</span>
+                    <span class="font-black px-2.5 py-1 rounded-full bg-[var(--search-bg)] border border-[var(--card-border)] text-amber-600 dark:text-amber-400 flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap shadow-xs">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400 animate-pulse"></span>
+                        ۶ شاخص سلامت
+                    </span>
+                </div>
+            </div>
+
+            <!-- شبکه‌بندی کارت‌های پزشکی سلامت -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-1 gap-2.5 sm:gap-3.5">
+                <template x-for="h in weatherData?.healthIndexes" :key="h.id">
+                    <div @click="selectedHealthIndex = h; vibrate(20)"
+                         class="p-4 rounded-2xl border border-[var(--card-border)] hover:border-blue-500/50 bg-[var(--search-bg)] hover:bg-[var(--card-bg-hover)] flex flex-col justify-between gap-3 transition-all duration-300 cursor-pointer group shadow-xs relative overflow-hidden">
+                        
+                        <!-- سطر ۱: آیکون، دسته‌بندی و عنوان اصلی (بدون قطع‌شدگی متن) -->
+                        <div class="flex items-center gap-3 w-full">
+                            <svg class="svg-icon w-6 h-6 flex-shrink-0 transition-transform duration-300 group-hover:scale-110 drop-shadow-sm"
+                                 :class="h.iconBg?.match(/text-[a-z0-9-]+|dark:text-[a-z0-9-]+/g)?.join(' ') || 'text-purple-600 dark:text-purple-400'"
+                                 ><use :href="'#' + (h.symbolId || getIconSymbolId(h.icon))"></use></svg>
+                            <div class="flex flex-col min-w-0 flex-1">
+                                <span class="text-[10px] font-extrabold text-[var(--text-muted)] leading-tight" x-text="h.category"></span>
+                                <h4 class="text-xs sm:text-sm font-black text-[var(--text-main)] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-snug" x-text="h.title"></h4>
+                            </div>
+                        </div>
+
+                        <!-- سطر ۲: نوار وضعیت بیوکلیماتیک و پارامتر عددی -->
+                        <div class="flex items-center justify-between gap-2 bg-[var(--card-bg)] px-3 py-1.5 rounded-xl border border-[var(--card-border)]/60">
+                            <span class="text-[10px] sm:text-[11px] font-black px-2.5 py-0.5 rounded-md border shadow-2xs whitespace-nowrap"
+                                  :class="h.badgeBg"
+                                  x-text="h.status"></span>
+                            
+                            <span class="text-[10px] sm:text-[11px] font-extrabold text-blue-600 dark:text-blue-300 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-md whitespace-nowrap"
+                                  x-text="h.metric"></span>
+                        </div>
+
+                        <!-- سطر ۳: متن توضیح کامل تحلیل -->
+                        <p class="text-[11px] sm:text-xs font-medium text-[var(--text-main)] opacity-85 leading-relaxed" x-text="h.desc"></p>
+
+                        <!-- سطر ۴: کلید دکمه اقدام جهت مشاهده توصیه تخصصی -->
+                        <div class="flex items-center justify-between pt-2 border-t border-[var(--card-border)]/40 text-[11px]">
+                            <span class="text-[10px] sm:text-[11px] font-bold text-[var(--text-muted)] group-hover:text-[var(--text-main)] transition-colors">مشاهده راهنمای پزشکی</span>
+                            
+                            <span class="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all group-hover:translate-x-[-3px] flex-shrink-0 shadow-2xs">
+                                <svg class="svg-icon w-3.5 h-3.5"><use href="#icon-chevron-left"></use></svg>
+                            </span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- کارت پیشنهاد پوشش و لباس متناسب با هوا -->
+        <div x-show="!loading && weatherData" x-cloak class="bento-card p-4 sm:p-5 space-y-4 transition-all duration-300">
+            <div class="flex flex-col gap-2 pb-3 border-b border-[var(--card-border-top)]">
+                <h3 class="text-xs sm:text-sm font-black text-[var(--text-main)] flex items-center gap-2">
+                    <svg class="svg-icon text-blue-500 dark:text-blue-400 w-5 h-5 flex-shrink-0"><use href="#icon-shirt"></use></svg>
+                    راهنمای پوشش و لباس پیشنهادی
+                </h3>
+                <span class="text-[9px] font-black px-2 py-0.5 rounded-lg border self-start shadow-sm"
+                      :class="weatherData?.clothing?.level?.badgeBg"
+                      x-text="weatherData?.clothing?.level?.title"></span>
+            </div>
+
+            <div class="flex flex-col gap-4">
+                <div class="p-3 rounded-2xl flex flex-col gap-1.5 justify-center shadow-inner"
+                     :class="weatherData?.clothing?.level?.bg">
+                    <span class="text-[9px] uppercase font-black tracking-wider opacity-75">ارزیابی پوشش امروز</span>
+                    <p class="text-[11px] font-bold leading-relaxed" x-text="weatherData?.clothing?.level?.description"></p>
+                </div>
+
+                <div class="flex flex-col gap-2.5">
+                    <span class="text-[10px] font-extrabold text-[var(--text-muted)]">ملزومات پیشنهادی:</span>
+                    <div class="grid grid-cols-1 gap-2.5">
+                        <template x-for="item in weatherData?.clothing?.items" :key="item.name">
+                            <div class="p-2.5 rounded-2xl border border-[var(--card-border)] hover:border-[var(--card-border-hover)] flex items-start gap-2.5 bg-[var(--search-bg)] transition-all group duration-300">
+                                <svg class="svg-icon w-6 h-6 flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+                                     :class="item.color?.match(/text-[a-z0-9-]+|dark:text-[a-z0-9-]+/g)?.join(' ') || 'text-blue-600 dark:text-blue-400'"
+                                     ><use :href="'#' + getIconSymbolId(item.icon)"></use></svg>
+                                <div class="flex flex-col gap-0.5">
+                                    <span class="text-[11px] font-black text-[var(--text-main)]" x-text="item.name"></span>
+                                    <span class="text-[9px] text-[var(--text-muted)] font-bold leading-normal" x-text="item.desc"></span>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <div x-show="weatherData?.clothing?.tips?.length > 0" class="pt-3 border-t border-[var(--card-border-top)]/40 flex flex-col gap-2">
+                <span class="text-[10px] font-extrabold text-[var(--text-muted)] flex items-center gap-1">
+                    <svg class="svg-icon text-amber-500 dark:text-amber-400 w-3 h-3"><use href="#icon-circle-info"></use></svg>
+                    توصیه‌های مراقبتی پوشش:
+                </span>
+                <ul class="space-y-1">
+                    <template x-for="tip in weatherData?.clothing?.tips" :key="tip">
+                        <li class="flex items-start gap-2 text-[10px] text-[var(--text-main)] font-bold leading-relaxed opacity-90">
+                            <span class="w-1 h-1 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0"></span>
+                            <span x-text="tip"></span>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+
+        <!-- کارت شاخص هوشمند فعالیت‌های فضای باز -->
+        <div x-show="!loading && weatherData" x-cloak class="bento-card p-3.5 sm:p-5 transition-all duration-300">
+            <!-- سربرگ کارت -->
+            <div class="flex flex-col gap-2.5 pb-3 mb-3.5 border-b border-[var(--card-border-top)]">
+                <div class="flex items-center gap-2.5 w-full">
+                    <svg class="svg-icon text-cyan-600 dark:text-cyan-400 w-5 h-5 flex-shrink-0"><use href="#icon-person-running"></use></svg>
+                    <h3 class="text-xs sm:text-sm font-black text-[var(--text-main)] leading-snug">
+                        شاخص مناسب بودن فعالیت‌های فضای باز
+                    </h3>
+                </div>
+                <div class="flex items-center justify-between text-[10px] sm:text-[11px] gap-2 pt-0.5">
+                    <span class="font-extrabold text-[var(--text-muted)] truncate">پایش هوشمند سنجش تناسب فعالیت‌ها</span>
+                    <span class="font-black px-2.5 py-1 rounded-full bg-[var(--search-bg)] border border-[var(--card-border)] text-cyan-700 dark:text-cyan-300 flex items-center gap-1.5 flex-shrink-0 whitespace-nowrap shadow-xs">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-500 dark:bg-cyan-400 animate-pulse"></span>
+                        ۸ فعالیت جوی
+                    </span>
+                </div>
+            </div>
+
+            <!-- شبکه‌بندی کارت‌های فعالیت -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-1 gap-2.5 sm:gap-3">
+                <template x-for="act in weatherData?.activities" :key="act.title">
+                    <div class="p-3 sm:p-3.5 rounded-2xl bg-[var(--search-bg)] hover:bg-[var(--card-bg-hover)] border border-[var(--card-border)] hover:border-blue-500/40 flex flex-col justify-between gap-2.5 transition-all duration-300 group shadow-xs">
+                        <!-- سطر بالا: آیکون، عنوان و بج وضعیت -->
+                        <div class="flex items-center justify-between gap-2 border-b border-[var(--card-border)]/50 pb-2">
+                            <div class="flex items-center gap-2.5 min-w-0 flex-1">
+                                <svg class="svg-icon w-6 h-6 p-0.5 flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+                                     :class="act.iconBg?.match(/text-[a-z0-9-]+|dark:text-[a-z0-9-]+/g)?.join(' ') || 'text-cyan-600 dark:text-cyan-400'"
+                                     ><use :href="'#' + getIconSymbolId(act.icon)"></use></svg>
+                                <span class="text-xs sm:text-sm font-black text-[var(--text-main)] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate"
+                                      :title="act.title"
+                                      x-text="act.title"></span>
+                            </div>
+                            <span class="text-[10px] sm:text-[11px] font-black px-2.5 py-1 rounded-xl border shadow-2xs whitespace-nowrap flex-shrink-0" :class="act.badgeBg" x-text="act.status"></span>
+                        </div>
+
+                        <!-- سطر پایین: نوار پیشرفت و درصد تناسب فعالیت -->
+                        <div class="w-full flex items-center gap-2 pt-0.5">
+                            <div class="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-800/90 overflow-hidden border border-[var(--card-border)]/60 p-0.5 shadow-inner">
+                                <div class="h-full rounded-full transition-all duration-500"
+                                     :class="act.score >= 80 ? 'bg-gradient-to-r from-emerald-600 to-teal-500 dark:from-emerald-500 dark:to-teal-400' : (act.score >= 50 ? 'bg-gradient-to-r from-amber-600 to-yellow-500 dark:from-amber-500 dark:to-yellow-400' : 'bg-gradient-to-r from-rose-600 to-red-500 dark:from-rose-500 dark:to-red-400')"
+                                     :style="'width: ' + act.score + '%'"></div>
+                            </div>
+                            <span class="text-[10px] sm:text-[11px] font-black text-[var(--text-main)] opacity-90 flex-shrink-0 whitespace-nowrap" x-text="toFarsi(act.score) + '٪ تناسب'"></span>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
     </div>
 </main>
+
+<!-- فوتر اختصاصی دسکتاپ و موبایل -->
+<footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 my-8 rounded-2xl bg-[var(--card-bg)] border border-[var(--card-border)] shadow-xs text-center text-xs text-[var(--text-main)] flex flex-col sm:flex-row items-center justify-between gap-4 no-print">
+    <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl flex items-center justify-center text-white text-xs font-bold shadow-md shadow-blue-500/20">
+            <svg class="svg-icon w-4 h-4"><use href="#icon-cloud-sun-rain"></use></svg>
+        </div>
+        <span class="font-black text-[var(--text-main)] text-sm">سامانه هوشمند هواشناسی پرو</span>
+    </div>
+    <a href="https://github.com/alirezaevil81/weather-pro" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-[11px] font-black text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 px-3 py-1.5 rounded-xl border border-blue-500/30 transition-all shadow-2xs">
+        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        <span>ریپازیتوری گیت‌هاب</span>
+    </a>
+</footer>
 
 </body>
 </html>

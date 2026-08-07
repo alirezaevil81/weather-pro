@@ -1,52 +1,9 @@
-import dayjs from 'dayjs';
-
 /**
- * Weather Pro - Utility Functions
- * توابع کمکی و محاسباتی اپلیکیشن هواشناسی
+ * Weather Pro - Meteorological & Physics Calculations
+ * فرمول‌های هواشناسی، شاخص‌های فیزیکی جو و وضعیت کد WMO
  */
 
-export function vibrate(ms = 20) {
-    if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
-        window.navigator.vibrate(ms);
-    }
-}
-
-export function toFarsi(num) {
-    if (num === null || num === undefined) return '';
-    return num.toString().replace(/\d/g, d => '۰۱۲۳۴۵۶۷۸۹'[d]);
-}
-
-export function formatTemp(celsiusVal, unit = 'C') {
-    if (celsiusVal === null || celsiusVal === undefined || isNaN(celsiusVal)) return '--';
-    let rounded = Math.round(celsiusVal);
-    if (unit === 'F') {
-        rounded = Math.round((celsiusVal * 9/5) + 32);
-    }
-    return toFarsi(rounded);
-}
-
-export function safeSetStorage(key, value) {
-    try { 
-        localStorage.setItem(key, value); 
-    } catch(e) {
-        console.warn('Storage set failed:', e);
-    }
-}
-
-export function safeGetStorage(key) {
-    try { 
-        return localStorage.getItem(key); 
-    } catch(e) { 
-        return null; 
-    }
-}
-
-export function getWindDirection(degree) {
-    if (degree === undefined || degree === null) return '';
-    const dirs = ['شمالی', 'شمال شرقی', 'شرقی', 'جنوب شرقی', 'جنوبی', 'جنوب غربی', 'غربی', 'شمال غربی'];
-    const idx = Math.round(degree / 45) % 8;
-    return dirs[idx];
-}
+import { toFarsi } from './utils.js';
 
 export function calculateDewPoint(tempC, rh) {
     if (tempC === null || rh === null || isNaN(tempC) || isNaN(rh)) return null;
@@ -67,27 +24,25 @@ export function calculateWindChill(tempC, windKmH) {
 export function calculateHeatIndex(tempC, rh) {
     if (tempC === null || rh === null || isNaN(tempC) || isNaN(rh)) return null;
     if (tempC < 27 || rh < 40) return Math.round(tempC);
-    const tempF = (tempC * 9/5) + 32;
+    const tempF = (tempC * 9 / 5) + 32;
     const hiF = -42.379 + (2.04901523 * tempF) + (10.14333127 * rh)
         - (0.22475541 * tempF * rh) - (0.00683783 * tempF * tempF)
         - (0.05481717 * rh * rh) + (0.00122874 * tempF * tempF * rh)
         - (0.00085282 * tempF * rh * rh) - (0.00000199 * tempF * tempF * rh * rh);
-    const hiC = (hiF - 32) * 5/9;
+    const hiC = (hiF - 32) * 5 / 9;
     return Math.round(hiC);
 }
 
 export function calculateCloudBase(tempC, dewPointC) {
     if (tempC === null || dewPointC === null || isNaN(tempC) || isNaN(dewPointC)) return null;
     const diff = Math.max(0, tempC - dewPointC);
-    const meters = Math.round(diff * 125);
-    return meters;
+    return Math.round(diff * 125);
 }
 
 export function calculateAirDensity(tempC, pressureHpa, rh) {
     if (tempC === null || pressureHpa === null || isNaN(tempC) || isNaN(pressureHpa)) return 1.225;
     const T_kelvin = tempC + 273.15;
     const p_pa = pressureHpa * 100;
-    // Approximated moist air density kg/m3
     const rh_ratio = (rh || 50) / 100;
     const p_sat = 610.78 * Math.exp((17.27 * tempC) / (tempC + 237.3));
     const p_v = rh_ratio * p_sat;
@@ -98,7 +53,6 @@ export function calculateAirDensity(tempC, pressureHpa, rh) {
 
 export function calculateEvapotranspiration(tempC, rh, windKmH) {
     if (tempC === null || isNaN(tempC)) return 3.5;
-    // Simplified FAO Penman-Monteith estimation (mm/day)
     const tMod = Math.max(1, tempC + 10);
     const rhMod = Math.max(10, 100 - (rh || 50));
     const windMs = (windKmH || 10) / 3.6;
@@ -110,7 +64,6 @@ export function calculateVPD(tempC, rh) {
     if (tempC === null || rh === null || isNaN(tempC) || isNaN(rh)) {
         return { val: null, text: 'نامشخص', color: 'text-slate-400' };
     }
-    // Vapor Pressure Deficit (kPa)
     const vpSat = 0.61078 * Math.exp((17.27 * tempC) / (tempC + 237.3));
     const vpAct = vpSat * (rh / 100);
     const vpd = vpSat - vpAct;
@@ -131,14 +84,12 @@ export function calculateWBGT(tempC, rh) {
     if (tempC === null || rh === null || isNaN(tempC) || isNaN(rh)) {
         return { val: null, text: 'نامشخص', color: 'text-slate-400' };
     }
-    // Simplified Stull Wet Bulb approximation
     const T = tempC;
     const RH = rh;
     const twb = T * Math.atan(0.151977 * Math.sqrt(RH + 8.313659)) +
                 Math.atan(T + RH) - Math.atan(RH - 1.676331) +
                 0.00391838 * Math.pow(RH, 1.5) * Math.atan(0.023101 * RH) - 4.686035;
     
-    // Australian / ISO WBGT Shade Approximation
     const wbgt = 0.7 * twb + 0.3 * T;
     const wbgtVal = Math.round(wbgt);
 
@@ -157,7 +108,7 @@ export function calculateWBGT(tempC, rh) {
 
 export function calculateHydrationNeeds(tempC, rh, uvIndex) {
     if (tempC === null || isNaN(tempC)) return 300;
-    let baseline = 300; // ml/hr
+    let baseline = 300;
     if (tempC > 20) {
         baseline += (tempC - 20) * 25;
     }
@@ -191,28 +142,30 @@ export function calculateComfortIndex(tempC, rh) {
 
 export function calculateDayDetails(sunriseIso, sunsetIso) {
     if (!sunriseIso || !sunsetIso) return { lengthText: '--', noonText: '--', remainingText: '--' };
-    const rise = dayjs(sunriseIso);
-    const set = dayjs(sunsetIso);
-    const now = dayjs();
+    const rise = new Date(sunriseIso);
+    const set = new Date(sunsetIso);
+    const now = new Date();
 
-    if (!rise.isValid() || !set.isValid()) return { lengthText: '--', noonText: '--', remainingText: '--' };
+    if (isNaN(rise.getTime()) || isNaN(set.getTime())) return { lengthText: '--', noonText: '--', remainingText: '--' };
 
-    const totalMinutes = set.diff(rise, 'minute');
+    const totalMinutes = Math.floor((set.getTime() - rise.getTime()) / (1000 * 60));
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     const lengthText = `${toFarsi(hours)} ساعت و ${toFarsi(minutes)} دقیقه`;
 
-    const noonDate = rise.add(totalMinutes / 2, 'minute');
-    const noonText = `${toFarsi(noonDate.format('HH'))}:${toFarsi(noonDate.format('mm'))}`;
+    const noonDate = new Date(rise.getTime() + (totalMinutes / 2) * 60 * 1000);
+    const noonHours = String(noonDate.getHours()).padStart(2, '0');
+    const noonMinutes = String(noonDate.getMinutes()).padStart(2, '0');
+    const noonText = `${toFarsi(noonHours)}:${toFarsi(noonMinutes)}`;
 
     let remainingText = '';
-    if (now.isBefore(rise)) {
-        const diffMins = rise.diff(now, 'minute');
+    if (now.getTime() < rise.getTime()) {
+        const diffMins = Math.floor((rise.getTime() - now.getTime()) / (1000 * 60));
         const h = Math.floor(diffMins / 60);
         const m = diffMins % 60;
         remainingText = `${toFarsi(h)} ساعت و ${toFarsi(m)} دقیقه تا طلوع`;
-    } else if (now.isBefore(set)) {
-        const diffMins = set.diff(now, 'minute');
+    } else if (now.getTime() < set.getTime()) {
+        const diffMins = Math.floor((set.getTime() - now.getTime()) / (1000 * 60));
         const h = Math.floor(diffMins / 60);
         const m = diffMins % 60;
         remainingText = `${toFarsi(h)} ساعت و ${toFarsi(m)} دقیقه تا غروب`;
@@ -246,10 +199,10 @@ export function getPressureTrendText(currentPressure, hourlyPressures = []) {
 }
 
 export function getMoonPhase(date = new Date()) {
-    const d = dayjs(date);
-    let year = d.year();
-    let month = d.month() + 1;
-    let day = d.date();
+    const d = new Date(date);
+    let year = d.getFullYear();
+    let month = d.getMonth() + 1;
+    let day = d.getDate();
     if (month < 3) { year--; month += 12; }
     month++;
     let c = 365.25 * year;
@@ -262,8 +215,7 @@ export function getMoonPhase(date = new Date()) {
     b = Math.round(jd * 8);
     if (b >= 8) b = 0;
 
-    // Illumination calculation (approximate percentage)
-    const phaseFraction = jd; // 0 to 1
+    const phaseFraction = jd;
     const illumination = Math.round((1 - Math.cos(phaseFraction * 2 * Math.PI)) / 2 * 100);
 
     const phases = [
@@ -290,16 +242,16 @@ export function getMoonPhase(date = new Date()) {
 
 export function getSunProgress(sunriseIso, sunsetIso) {
     if (!sunriseIso || !sunsetIso) return { percent: 0, status: 'نامشخص' };
-    const now = dayjs();
-    const rise = dayjs(sunriseIso);
-    const set = dayjs(sunsetIso);
+    const now = new Date();
+    const rise = new Date(sunriseIso);
+    const set = new Date(sunsetIso);
     
-    if (!rise.isValid() || !set.isValid()) return { percent: 0, status: 'نامشخص' };
-    if (now.isBefore(rise)) return { percent: 0, status: 'قبل از طلوع' };
-    if (now.isAfter(set)) return { percent: 100, status: 'شب (غروب شده)' };
+    if (isNaN(rise.getTime()) || isNaN(set.getTime())) return { percent: 0, status: 'نامشخص' };
+    if (now.getTime() < rise.getTime()) return { percent: 0, status: 'قبل از طلوع' };
+    if (now.getTime() > set.getTime()) return { percent: 100, status: 'شب (غروب شده)' };
     
-    const total = set.diff(rise);
-    const current = now.diff(rise);
+    const total = set.getTime() - rise.getTime();
+    const current = now.getTime() - rise.getTime();
     const pct = Math.min(100, Math.max(0, Math.round((current / total) * 100)));
     return { percent: pct, status: `${toFarsi(pct)}٪ از روز گذشته` };
 }
@@ -383,4 +335,3 @@ export function getWindImpact(windKmH) {
     if (windKmH >= 15) return 'نسیم فعال؛ برای تهویه هوا، گردش و خشک شدن لباس‌ها مطلوب است.';
     return 'شرایط جوی بسیار آرام؛ عالی برای پیاده‌روی، عکاسی و پرواز پهپاد.';
 }
-
